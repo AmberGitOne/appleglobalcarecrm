@@ -35,6 +35,12 @@ it runs locally.
 3. Confirm. Render reads `render.yaml` and creates the service plus a 1 GB
    disk mounted at `/var/data`.
 
+The blueprint's start command is `node server/db/bootstrap.js && node
+server/index.js`. `bootstrap.js` applies the schema and seeds the demo data
+**only when the database has no users** — so the first deploy comes up with a
+working account to sign in with, and every later deploy leaves your real data
+alone.
+
 The blueprint sets:
 
 - `DB_FILE=/var/data/crm.db` — on the persistent disk, so deploys do not
@@ -72,12 +78,12 @@ docker build -t aglc-crm .
 docker run -p 4000:4000 -v aglc-data:/app/data -e REQUIRE_AUTH=true -e JWT_SECRET="$(openssl rand -hex 32)" aglc-crm
 ```
 
-The `-v` volume is not optional. Without it the database lives inside the
-container layer and is destroyed on every restart.
+The `-v` volume is not optional in production. Without it the database lives
+inside the container layer and is destroyed on every restart.
 
-`docker-entrypoint.sh` creates the schema and seeds **only when the database
-file is missing**. On later boots it applies pending migrations and leaves
-your data alone, so a redeploy never wipes real records.
+`docker-entrypoint.sh` runs the same `bootstrap.js`: schema applied every
+boot, demo data loaded only when there are no users. A redeploy never wipes
+real records.
 
 ### Railway
 

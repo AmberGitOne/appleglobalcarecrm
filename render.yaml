@@ -15,7 +15,12 @@ services:
     branch: main
 
     buildCommand: npm ci --omit=dev --ignore-scripts
-    startCommand: node server/db/migrate.js && node server/index.js
+
+    # bootstrap.js applies the schema, and seeds ONLY when the database has
+    # no users. Migrating alone would leave the first deploy with zero users,
+    # which with REQUIRE_AUTH=true means nobody can sign in. It is also safe
+    # on every later deploy: it leaves existing data alone.
+    startCommand: node server/db/bootstrap.js && node server/index.js
 
     healthCheckPath: /api/health
 

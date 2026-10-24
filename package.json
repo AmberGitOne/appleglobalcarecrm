@@ -12,7 +12,9 @@
     "seed": "node server/db/seed.js",
     "reset": "node server/db/migrate.js --fresh && node server/db/seed.js",
     "setup": "npm run migrate && npm run seed",
-    "test": "node scripts/smoke-test.js"
+    "test": "node scripts/smoke-test.js",
+    "start:prod": "node server/db/bootstrap.js && node server/index.js",
+    "bootstrap": "node server/db/bootstrap.js"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
