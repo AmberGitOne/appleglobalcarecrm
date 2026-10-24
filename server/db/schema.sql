@@ -1,0 +1,699 @@
+-- =====================================================================
+-- Apple Globalcare CRM - relational schema (SQLite)
+-- Pharmaceutical named-patient sourcing, service desk and QMS records.
+-- Portable SQL so the model can be moved to PostgreSQL later.
+-- =====================================================================
+
+PRAGMA foreign_keys = ON;
+
+-- ---------------------------------------------------------------------
+-- 1. Identity and access control
+-- ---------------------------------------------------------------------
+
+CREATE TABLE roles (
+  id          TEXT PRIMARY KEY,
+  name        TEXT NOT NULL UNIQUE,
+  description TEXT NOT NULL DEFAULT ''
+);
+
+CREATE TABLE permissions (
+  id          TEXT PRIMARY KEY,
+  resource    TEXT NOT NULL,
+  action      TEXT NOT NULL,
+  description TEXT NOT NULL DEFAULT '',
+  UNIQUE (resource, action)
+);
+
+CREATE TABLE role_permissions (
+  role_id       TEXT NOT NULL REFERENCES roles(id) ON DELETE CASCADE,
+  permission_id TEXT NOT NULL REFERENCES permissions(id) ON DELETE CASCADE,
+  PRIMARY KEY (role_id, permission_id)
+);
+
+CREATE TABLE users (
+  id            TEXT PRIMARY KEY,
+  email         TEXT NOT NULL UNIQUE,
+  name          TEXT NOT NULL,
+  password_hash TEXT NOT NULL,
+  role_id       TEXT NOT NULL REFERENCES roles(id),
+  desk          TEXT,
+  job_title     TEXT NOT NULL DEFAULT '',
+  grade         TEXT NOT NULL DEFAULT '',
+  avatar        TEXT NOT NULL DEFAULT '',
+  active        INTEGER NOT NULL DEFAULT 1 CHECK (active IN (0,1)),
+  last_login_at TEXT,
+  created_at    TEXT NOT NULL DEFAULT (datetime('now')),
+  updated_at    TEXT NOT NULL DEFAULT (datetime('now'))
+);
+CREATE INDEX idx_users_role ON users(role_id);
+CREATE INDEX idx_users_desk ON users(desk);
+
+-- ---------------------------------------------------------------------
+-- 2. Reference data and configuration
+-- ---------------------------------------------------------------------
+
+CREATE TABLE desks (
+  id         TEXT PRIMARY KEY,
+  name       TEXT NOT NULL UNIQUE,
+  colour     TEXT NOT NULL DEFAULT '#6b7a90',
+  sla_target TEXT NOT NULL DEFAULT '8 h',
+  position   INTEGER NOT NULL DEFAULT 0
+);
+
+-- Scalar application configuration (stage, margin floor, current ticket...)
+CREATE TABLE settings (
+  key        TEXT PRIMARY KEY,
+  value      TEXT,
+  value_type TEXT NOT NULL DEFAULT 'string'
+               CHECK (value_type IN ('string','number','boolean','json')),
+  updated_at TEXT NOT NULL DEFAULT (datetime('now'))
+);
+
+-- Keyword to desk auto-routing rules, evaluated in position order
+CREATE TABLE routing_rules (
+  id       INTEGER PRIMARY KEY AUTOINCREMENT,
+  keywords TEXT NOT NULL,
+  desk     TEXT NOT NULL,
+  position INTEGER NOT NULL DEFAULT 0,
+  active   INTEGER NOT NULL DEFAULT 1 CHECK (active IN (0,1))
+);
+CREATE INDEX idx_routing_position ON routing_rules(position);
+
+CREATE TABLE labels (
+  id       TEXT PRIMARY KEY,
+  name     TEXT NOT NULL,
+  colour   TEXT NOT NULL DEFAULT '#6b7a90',
+  position INTEGER NOT NULL DEFAULT 0
+);
+
+CREATE TABLE notifications (
+  id         TEXT PRIMARY KEY,
+  title      TEXT NOT NULL,
+  detail     TEXT NOT NULL DEFAULT '',
+  go_route   TEXT NOT NULL DEFAULT '',
+  at_label   TEXT NOT NULL DEFAULT '',
+  is_read    INTEGER NOT NULL DEFAULT 0 CHECK (is_read IN (0,1)),
+  user_id    TEXT REFERENCES users(id) ON DELETE CASCADE,
+  position   INTEGER NOT NULL DEFAULT 0,
+  created_at TEXT NOT NULL DEFAULT (datetime('now'))
+);
+CREATE INDEX idx_notifications_read ON notifications(is_read);
+
+-- ---------------------------------------------------------------------
+-- 3. Suppliers (declared early: other tables reference it)
+-- ---------------------------------------------------------------------
+
+CREATE TABLE suppliers (
+  id            TEXT PRIMARY KEY,
+  name          TEXT NOT NULL,
+  code          TEXT NOT NULL DEFAULT '',
+  category      TEXT NOT NULL DEFAULT '',
+  country       TEXT NOT NULL DEFAULT '',
+  city          TEXT NOT NULL DEFAULT '',
+  registration  TEXT NOT NULL DEFAULT '',
+  contact       TEXT NOT NULL DEFAULT '',
+  email         TEXT NOT NULL DEFAULT '',
+  phone         TEXT NOT NULL DEFAULT '',
+  payment_terms TEXT NOT NULL DEFAULT '',
+  currency      TEXT NOT NULL DEFAULT 'USD',
+  lead_time     TEXT NOT NULL DEFAULT '',
+  status        TEXT NOT NULL DEFAULT 'Under review'
+                  CHECK (status IN ('Approved','On hold','Under review','Blocked')),
+  rating        TEXT NOT NULL DEFAULT '',
+  last_audit    TEXT NOT NULL DEFAULT '',
+  next_audit    TEXT NOT NULL DEFAULT '',
+  spend         TEXT NOT NULL DEFAULT '',
+  note          TEXT NOT NULL DEFAULT '',
+  created_at    TEXT NOT NULL DEFAULT (datetime('now')),
+  updated_at    TEXT NOT NULL DEFAULT (datetime('now'))
+);
+CREATE INDEX idx_suppliers_status  ON suppliers(status);
+CREATE INDEX idx_suppliers_country ON suppliers(country);
+CREATE INDEX idx_suppliers_cat     ON suppliers(category);
+
+CREATE TABLE supplier_certificates (
+  id           TEXT PRIMARY KEY,
+  supplier_id  TEXT NOT NULL REFERENCES suppliers(id) ON DELETE CASCADE,
+  cert_type    TEXT NOT NULL,
+  cert_number  TEXT NOT NULL DEFAULT '',
+  issuing_body TEXT NOT NULL DEFAULT '',
+  issued_on    TEXT NOT NULL DEFAULT '',
+  expires_on   TEXT NOT NULL DEFAULT ''
+);
+CREATE INDEX idx_certs_supplier ON supplier_certificates(supplier_id);
+CREATE INDEX idx_certs_expiry   ON supplier_certificates(expires_on);
+
+-- ---------------------------------------------------------------------
+-- 4. Patient cases - the spine linking tickets, RFQs, quotes and orders
+-- ---------------------------------------------------------------------
+
+CREATE TABLE cases (
+  id         TEXT PRIMARY KEY,
+  patient    TEXT NOT NULL,
+  manager    TEXT NOT NULL DEFAULT '',
+  stage      INTEGER NOT NULL DEFAULT 1 CHECK (stage BETWEEN 1 AND 10),
+  status     TEXT NOT NULL DEFAULT 'open'
+               CHECK (status IN ('open','on hold','closed','cancelled')),
+  opened_at  TEXT NOT NULL DEFAULT (datetime('now')),
+  closed_at  TEXT,
+  created_at TEXT NOT NULL DEFAULT (datetime('now')),
+  updated_at TEXT NOT NULL DEFAULT (datetime('now'))
+);
+CREATE INDEX idx_cases_status ON cases(status);
+
+CREATE TABLE case_timeline (
+  id         INTEGER PRIMARY KEY AUTOINCREMENT,
+  case_id    TEXT NOT NULL REFERENCES cases(id) ON DELETE CASCADE,
+  kind       TEXT NOT NULL DEFAULT 'ticket'
+               CHECK (kind IN ('ticket','quote','order','payment','note','doc')),
+  title      TEXT NOT NULL,
+  detail     TEXT NOT NULL DEFAULT '',
+  tag        TEXT NOT NULL DEFAULT '',
+  colour     TEXT NOT NULL DEFAULT '#8b98ab',
+  at_label   TEXT NOT NULL DEFAULT '',
+  position   INTEGER NOT NULL DEFAULT 0,
+  created_at TEXT NOT NULL DEFAULT (datetime('now'))
+);
+CREATE INDEX idx_case_timeline_case ON case_timeline(case_id, position);
+
+CREATE TABLE case_documents (
+  id          INTEGER PRIMARY KEY AUTOINCREMENT,
+  case_id     TEXT NOT NULL REFERENCES cases(id) ON DELETE CASCADE,
+  name        TEXT NOT NULL,
+  doc_type    TEXT NOT NULL DEFAULT 'PDF',
+  size_label  TEXT NOT NULL DEFAULT '',
+  uploaded_by TEXT NOT NULL DEFAULT '',
+  position    INTEGER NOT NULL DEFAULT 0,
+  created_at  TEXT NOT NULL DEFAULT (datetime('now'))
+);
+CREATE INDEX idx_case_docs_case ON case_documents(case_id);
+
+-- ---------------------------------------------------------------------
+-- 5. Service desk - tickets, threads, attachments
+-- ---------------------------------------------------------------------
+
+CREATE TABLE tickets (
+  id             TEXT PRIMARY KEY,
+  case_id        TEXT REFERENCES cases(id) ON DELETE SET NULL,
+  sender         TEXT NOT NULL,
+  sender_kind    TEXT NOT NULL DEFAULT '',
+  subject        TEXT NOT NULL,
+  preview        TEXT NOT NULL DEFAULT '',
+  channel        TEXT NOT NULL DEFAULT 'Email',
+  desk           TEXT NOT NULL DEFAULT '',
+  owner          TEXT NOT NULL DEFAULT '',
+  priority       TEXT NOT NULL DEFAULT 'Normal'
+                   CHECK (priority IN ('Low','Normal','High','Urgent')),
+  folder         TEXT NOT NULL DEFAULT 'inbox'
+                   CHECK (folder IN ('inbox','sent','drafts','trash','spam','closed')),
+  status         TEXT NOT NULL DEFAULT '',
+  previous_desk  TEXT NOT NULL DEFAULT '',
+  escalated_to   TEXT NOT NULL DEFAULT '',
+  time_label     TEXT NOT NULL DEFAULT '',
+  unread         INTEGER NOT NULL DEFAULT 1 CHECK (unread IN (0,1)),
+  starred        INTEGER NOT NULL DEFAULT 0 CHECK (starred IN (0,1)),
+  has_attachment INTEGER NOT NULL DEFAULT 0 CHECK (has_attachment IN (0,1)),
+  breached       INTEGER NOT NULL DEFAULT 0 CHECK (breached IN (0,1)),
+  snoozed_until  TEXT,
+  position       INTEGER NOT NULL DEFAULT 0,
+  created_at     TEXT NOT NULL DEFAULT (datetime('now')),
+  updated_at     TEXT NOT NULL DEFAULT (datetime('now'))
+);
+CREATE INDEX idx_tickets_folder   ON tickets(folder);
+CREATE INDEX idx_tickets_desk     ON tickets(desk);
+CREATE INDEX idx_tickets_owner    ON tickets(owner);
+CREATE INDEX idx_tickets_priority ON tickets(priority);
+CREATE INDEX idx_tickets_case     ON tickets(case_id);
+CREATE INDEX idx_tickets_unread   ON tickets(unread);
+CREATE INDEX idx_tickets_sender   ON tickets(sender);
+
+CREATE TABLE ticket_labels (
+  ticket_id TEXT NOT NULL REFERENCES tickets(id) ON DELETE CASCADE,
+  label_id  TEXT NOT NULL REFERENCES labels(id) ON DELETE CASCADE,
+  PRIMARY KEY (ticket_id, label_id)
+);
+CREATE INDEX idx_ticket_labels_label ON ticket_labels(label_id);
+
+CREATE TABLE ticket_messages (
+  id         INTEGER PRIMARY KEY AUTOINCREMENT,
+  ticket_id  TEXT NOT NULL REFERENCES tickets(id) ON DELETE CASCADE,
+  position   INTEGER NOT NULL DEFAULT 0,
+  author     TEXT NOT NULL,
+  direction  TEXT NOT NULL DEFAULT 'in' CHECK (direction IN ('in','out','note')),
+  channel    TEXT NOT NULL DEFAULT '',
+  at_label   TEXT NOT NULL DEFAULT '',
+  body       TEXT NOT NULL DEFAULT '',
+  created_at TEXT NOT NULL DEFAULT (datetime('now'))
+);
+CREATE INDEX idx_ticket_messages_ticket ON ticket_messages(ticket_id, position);
+
+CREATE TABLE attachments (
+  id           INTEGER PRIMARY KEY AUTOINCREMENT,
+  message_id   INTEGER REFERENCES ticket_messages(id) ON DELETE CASCADE,
+  ticket_id    TEXT REFERENCES tickets(id) ON DELETE CASCADE,
+  filename     TEXT NOT NULL,
+  file_type    TEXT NOT NULL DEFAULT 'PDF',
+  size_label   TEXT NOT NULL DEFAULT '',
+  storage_path TEXT,
+  created_at   TEXT NOT NULL DEFAULT (datetime('now'))
+);
+CREATE INDEX idx_attachments_message ON attachments(message_id);
+CREATE INDEX idx_attachments_ticket  ON attachments(ticket_id);
+
+-- ---------------------------------------------------------------------
+-- 6. Sourcing - RFQs issued to partners and their responses
+-- ---------------------------------------------------------------------
+
+CREATE TABLE rfqs (
+  id          TEXT PRIMARY KEY,
+  case_id     TEXT REFERENCES cases(id) ON DELETE SET NULL,
+  drug        TEXT NOT NULL,
+  spec        TEXT NOT NULL DEFAULT '',
+  quantity    TEXT NOT NULL DEFAULT '',
+  needed_by   TEXT NOT NULL DEFAULT '',
+  destination TEXT NOT NULL DEFAULT '',
+  storage     TEXT NOT NULL DEFAULT '',
+  sent_at     TEXT NOT NULL DEFAULT '',
+  status      TEXT NOT NULL DEFAULT 'open'
+                CHECK (status IN ('open','closed','cancelled')),
+  created_at  TEXT NOT NULL DEFAULT (datetime('now')),
+  updated_at  TEXT NOT NULL DEFAULT (datetime('now'))
+);
+CREATE INDEX idx_rfqs_case ON rfqs(case_id);
+
+CREATE TABLE rfq_lines (
+  id          INTEGER PRIMARY KEY AUTOINCREMENT,
+  rfq_id      TEXT NOT NULL REFERENCES rfqs(id) ON DELETE CASCADE,
+  position    INTEGER NOT NULL DEFAULT 0,
+  country     TEXT NOT NULL,
+  partner     TEXT NOT NULL DEFAULT '',
+  supplier_id TEXT REFERENCES suppliers(id) ON DELETE SET NULL,
+  maker       TEXT NOT NULL DEFAULT '',
+  pack        TEXT NOT NULL DEFAULT '',
+  batch       TEXT NOT NULL DEFAULT '',
+  expiry      TEXT NOT NULL DEFAULT '',
+  available   TEXT NOT NULL DEFAULT '',
+  landed_cost REAL NOT NULL DEFAULT 0,
+  lead_days   TEXT NOT NULL DEFAULT '',
+  rating      TEXT NOT NULL DEFAULT '',
+  flag        TEXT NOT NULL DEFAULT '',
+  note        TEXT NOT NULL DEFAULT '',
+  state       TEXT NOT NULL DEFAULT 'waiting'
+                CHECK (state IN ('in','waiting','declined')),
+  selected    INTEGER NOT NULL DEFAULT 0 CHECK (selected IN (0,1))
+);
+CREATE INDEX idx_rfq_lines_rfq   ON rfq_lines(rfq_id, position);
+CREATE INDEX idx_rfq_lines_state ON rfq_lines(state);
+
+-- ---------------------------------------------------------------------
+-- 7. Quotes
+-- ---------------------------------------------------------------------
+
+CREATE TABLE quotes (
+  id              TEXT PRIMARY KEY,
+  case_id         TEXT REFERENCES cases(id) ON DELETE SET NULL,
+  rfq_id          TEXT REFERENCES rfqs(id) ON DELETE SET NULL,
+  patient         TEXT NOT NULL DEFAULT '',
+  drug            TEXT NOT NULL DEFAULT '',
+  status          TEXT NOT NULL DEFAULT 'draft'
+                    CHECK (status IN ('draft','sent','accepted','declined','expired')),
+  accepted_option TEXT,
+  created_at      TEXT NOT NULL DEFAULT (datetime('now')),
+  updated_at      TEXT NOT NULL DEFAULT (datetime('now'))
+);
+CREATE INDEX idx_quotes_case ON quotes(case_id);
+
+CREATE TABLE quote_options (
+  id          INTEGER PRIMARY KEY AUTOINCREMENT,
+  quote_id    TEXT NOT NULL REFERENCES quotes(id) ON DELETE CASCADE,
+  opt_key     TEXT NOT NULL,
+  name        TEXT NOT NULL DEFAULT '',
+  note        TEXT NOT NULL DEFAULT '',
+  origin      TEXT NOT NULL DEFAULT '',
+  lead_days   TEXT NOT NULL DEFAULT '',
+  landed_cost REAL NOT NULL DEFAULT 0,
+  service_fee REAL NOT NULL DEFAULT 0,
+  visible     INTEGER NOT NULL DEFAULT 1 CHECK (visible IN (0,1)),
+  is_default  INTEGER NOT NULL DEFAULT 0 CHECK (is_default IN (0,1)),
+  position    INTEGER NOT NULL DEFAULT 0,
+  UNIQUE (quote_id, opt_key)
+);
+CREATE INDEX idx_quote_options_quote ON quote_options(quote_id, position);
+
+-- ---------------------------------------------------------------------
+-- 8. Orders and fulfilment
+-- ---------------------------------------------------------------------
+
+CREATE TABLE orders (
+  id            TEXT PRIMARY KEY,
+  case_id       TEXT REFERENCES cases(id) ON DELETE SET NULL,
+  quote_id      TEXT REFERENCES quotes(id) ON DELETE SET NULL,
+  patient       TEXT NOT NULL DEFAULT '',
+  drug          TEXT NOT NULL DEFAULT '',
+  country       TEXT NOT NULL DEFAULT '',
+  owner         TEXT NOT NULL DEFAULT '',
+  stage         INTEGER NOT NULL DEFAULT 0,
+  value_label   TEXT NOT NULL DEFAULT '',
+  payment_state TEXT NOT NULL DEFAULT '',
+  due_label     TEXT NOT NULL DEFAULT '',
+  left_label    TEXT NOT NULL DEFAULT '',
+  hold_reason   TEXT NOT NULL DEFAULT '',
+  note          TEXT NOT NULL DEFAULT '',
+  cold_chain    INTEGER NOT NULL DEFAULT 0 CHECK (cold_chain IN (0,1)),
+  at_risk       INTEGER NOT NULL DEFAULT 0 CHECK (at_risk IN (0,1)),
+  completed     INTEGER NOT NULL DEFAULT 0 CHECK (completed IN (0,1)),
+  completed_at  TEXT NOT NULL DEFAULT '',
+  position      INTEGER NOT NULL DEFAULT 0,
+  created_at    TEXT NOT NULL DEFAULT (datetime('now')),
+  updated_at    TEXT NOT NULL DEFAULT (datetime('now'))
+);
+CREATE INDEX idx_orders_stage     ON orders(stage);
+CREATE INDEX idx_orders_case      ON orders(case_id);
+CREATE INDEX idx_orders_completed ON orders(completed);
+CREATE INDEX idx_orders_risk      ON orders(at_risk);
+CREATE INDEX idx_orders_cold      ON orders(cold_chain);
+
+-- Warehouse pick wave
+CREATE TABLE wave_lines (
+  id           TEXT PRIMARY KEY,
+  order_id     TEXT REFERENCES orders(id) ON DELETE SET NULL,
+  patient      TEXT NOT NULL DEFAULT '',
+  drug         TEXT NOT NULL DEFAULT '',
+  batch        TEXT NOT NULL DEFAULT '',
+  expiry       TEXT NOT NULL DEFAULT '',
+  location     TEXT NOT NULL DEFAULT '',
+  quantity     TEXT NOT NULL DEFAULT '',
+  fefo         TEXT NOT NULL DEFAULT 'OK' CHECK (fefo IN ('OK','Breach')),
+  state        TEXT NOT NULL DEFAULT 'queued'
+                 CHECK (state IN ('queued','picking','picked','packed','held','qa','shipped')),
+  cold_chain   INTEGER NOT NULL DEFAULT 0 CHECK (cold_chain IN (0,1)),
+  alt_batch    TEXT NOT NULL DEFAULT '',
+  alt_expiry   TEXT NOT NULL DEFAULT '',
+  alt_location TEXT NOT NULL DEFAULT '',
+  position     INTEGER NOT NULL DEFAULT 0,
+  updated_at   TEXT NOT NULL DEFAULT (datetime('now'))
+);
+CREATE INDEX idx_wave_state ON wave_lines(state);
+
+-- ---------------------------------------------------------------------
+-- 9. Quality - batch release, checks, deviations
+-- ---------------------------------------------------------------------
+
+CREATE TABLE qa_batches (
+  id                TEXT PRIMARY KEY,
+  product           TEXT NOT NULL,
+  batch             TEXT NOT NULL,
+  supplier          TEXT NOT NULL DEFAULT '',
+  supplier_id       TEXT REFERENCES suppliers(id) ON DELETE SET NULL,
+  expiry            TEXT NOT NULL DEFAULT '',
+  temperature       TEXT NOT NULL DEFAULT '',
+  temp_ok           INTEGER NOT NULL DEFAULT 1 CHECK (temp_ok IN (0,1)),
+  handling          TEXT NOT NULL DEFAULT '',
+  for_whom          TEXT NOT NULL DEFAULT '',
+  received          TEXT NOT NULL DEFAULT '',
+  signer            TEXT NOT NULL DEFAULT '',
+  waiting           TEXT NOT NULL DEFAULT '',
+  status            TEXT NOT NULL DEFAULT 'review'
+                      CHECK (status IN ('review','ready','quarantine','released','rejected')),
+  assigned_to_me    INTEGER NOT NULL DEFAULT 0 CHECK (assigned_to_me IN (0,1)),
+  quarantine_reason TEXT NOT NULL DEFAULT '',
+  released_at       TEXT,
+  position          INTEGER NOT NULL DEFAULT 0,
+  created_at        TEXT NOT NULL DEFAULT (datetime('now')),
+  updated_at        TEXT NOT NULL DEFAULT (datetime('now'))
+);
+CREATE INDEX idx_qa_status ON qa_batches(status);
+CREATE INDEX idx_qa_batch  ON qa_batches(batch);
+
+CREATE TABLE qa_checks (
+  id       INTEGER PRIMARY KEY AUTOINCREMENT,
+  batch_id TEXT NOT NULL REFERENCES qa_batches(id) ON DELETE CASCADE,
+  position INTEGER NOT NULL DEFAULT 0,
+  done     INTEGER NOT NULL DEFAULT 0 CHECK (done IN (0,1)),
+  label    TEXT NOT NULL,
+  detail   TEXT NOT NULL DEFAULT ''
+);
+CREATE INDEX idx_qa_checks_batch ON qa_checks(batch_id, position);
+
+CREATE TABLE qa_deviations (
+  id        TEXT PRIMARY KEY,
+  batch     TEXT NOT NULL DEFAULT '',
+  batch_id  TEXT REFERENCES qa_batches(id) ON DELETE SET NULL,
+  what      TEXT NOT NULL DEFAULT '',
+  severity  TEXT NOT NULL DEFAULT 'Minor'
+              CHECK (severity IN ('Minor','Major','Critical')),
+  state     TEXT NOT NULL DEFAULT 'open',
+  opened_at TEXT NOT NULL DEFAULT (datetime('now')),
+  closed_at TEXT
+);
+CREATE INDEX idx_qa_dev_state ON qa_deviations(state);
+
+-- ---------------------------------------------------------------------
+-- 10. Pharmacy - prescriptions and prescriber queries
+-- ---------------------------------------------------------------------
+
+CREATE TABLE prescriptions (
+  id             TEXT PRIMARY KEY,
+  case_id        TEXT REFERENCES cases(id) ON DELETE SET NULL,
+  patient        TEXT NOT NULL,
+  dob            TEXT NOT NULL DEFAULT '',
+  mrn            TEXT NOT NULL DEFAULT '',
+  country        TEXT NOT NULL DEFAULT '',
+  drug           TEXT NOT NULL DEFAULT '',
+  dose           TEXT NOT NULL DEFAULT '',
+  diagnosis      TEXT NOT NULL DEFAULT '',
+  hospital       TEXT NOT NULL DEFAULT '',
+  department     TEXT NOT NULL DEFAULT '',
+  prescriber     TEXT NOT NULL DEFAULT '',
+  registration   TEXT NOT NULL DEFAULT '',
+  dated          TEXT NOT NULL DEFAULT '',
+  received       TEXT NOT NULL DEFAULT '',
+  tag            TEXT NOT NULL DEFAULT '',
+  tag_colour     TEXT NOT NULL DEFAULT '',
+  age_label      TEXT NOT NULL DEFAULT '',
+  authorised     TEXT NOT NULL DEFAULT '',
+  used           TEXT NOT NULL DEFAULT '',
+  released       TEXT NOT NULL DEFAULT '',
+  expiry         TEXT NOT NULL DEFAULT '',
+  status         TEXT NOT NULL DEFAULT 'waiting'
+                   CHECK (status IN ('queue','waiting','query','verified','released','rejected')),
+  sla_breached   INTEGER NOT NULL DEFAULT 0 CHECK (sla_breached IN (0,1)),
+  assigned_to_me INTEGER NOT NULL DEFAULT 0 CHECK (assigned_to_me IN (0,1)),
+  position       INTEGER NOT NULL DEFAULT 0,
+  created_at     TEXT NOT NULL DEFAULT (datetime('now')),
+  updated_at     TEXT NOT NULL DEFAULT (datetime('now'))
+);
+CREATE INDEX idx_rx_status ON prescriptions(status);
+CREATE INDEX idx_rx_case   ON prescriptions(case_id);
+
+CREATE TABLE rx_checks (
+  id       INTEGER PRIMARY KEY AUTOINCREMENT,
+  rx_id    TEXT NOT NULL REFERENCES prescriptions(id) ON DELETE CASCADE,
+  position INTEGER NOT NULL DEFAULT 0,
+  done     INTEGER NOT NULL DEFAULT 0 CHECK (done IN (0,1)),
+  label    TEXT NOT NULL,
+  detail   TEXT NOT NULL DEFAULT ''
+);
+CREATE INDEX idx_rx_checks_rx ON rx_checks(rx_id, position);
+
+CREATE TABLE rx_queries (
+  id         TEXT PRIMARY KEY,
+  rx_id      TEXT REFERENCES prescriptions(id) ON DELETE SET NULL,
+  patient    TEXT NOT NULL DEFAULT '',
+  question   TEXT NOT NULL DEFAULT '',
+  sent_at    TEXT NOT NULL DEFAULT '',
+  state      TEXT NOT NULL DEFAULT 'waiting',
+  answer     TEXT NOT NULL DEFAULT '',
+  position   INTEGER NOT NULL DEFAULT 0,
+  created_at TEXT NOT NULL DEFAULT (datetime('now'))
+);
+CREATE INDEX idx_rx_queries_state ON rx_queries(state);
+
+-- ---------------------------------------------------------------------
+-- 11. People and payroll
+-- ---------------------------------------------------------------------
+
+CREATE TABLE employees (
+  id              TEXT PRIMARY KEY,
+  name            TEXT NOT NULL,
+  department      TEXT NOT NULL DEFAULT '',
+  date_of_joining TEXT NOT NULL DEFAULT '',
+  salary          TEXT NOT NULL DEFAULT '',
+  leave_balance   TEXT NOT NULL DEFAULT '',
+  status          TEXT NOT NULL DEFAULT 'Active',
+  documents       TEXT NOT NULL DEFAULT '',
+  user_id         TEXT REFERENCES users(id) ON DELETE SET NULL,
+  position        INTEGER NOT NULL DEFAULT 0,
+  created_at      TEXT NOT NULL DEFAULT (datetime('now')),
+  updated_at      TEXT NOT NULL DEFAULT (datetime('now'))
+);
+CREATE INDEX idx_employees_dept   ON employees(department);
+CREATE INDEX idx_employees_status ON employees(status);
+
+CREATE TABLE benefits (
+  id   TEXT PRIMARY KEY,
+  name TEXT NOT NULL UNIQUE
+);
+
+CREATE TABLE employee_benefits (
+  employee_id TEXT NOT NULL REFERENCES employees(id) ON DELETE CASCADE,
+  benefit_id  TEXT NOT NULL REFERENCES benefits(id) ON DELETE CASCADE,
+  PRIMARY KEY (employee_id, benefit_id)
+);
+
+CREATE TABLE leave_requests (
+  id          TEXT PRIMARY KEY,
+  employee_id TEXT REFERENCES employees(id) ON DELETE SET NULL,
+  who         TEXT NOT NULL,
+  department  TEXT NOT NULL DEFAULT '',
+  leave_type  TEXT NOT NULL DEFAULT '',
+  from_date   TEXT NOT NULL DEFAULT '',
+  to_date     TEXT NOT NULL DEFAULT '',
+  days        TEXT NOT NULL DEFAULT '',
+  reason      TEXT NOT NULL DEFAULT '',
+  cover       TEXT NOT NULL DEFAULT '',
+  status      TEXT NOT NULL DEFAULT 'waiting'
+                CHECK (status IN ('waiting','approved','rejected','cancelled','recorded','lop')),
+  is_mine     INTEGER NOT NULL DEFAULT 0 CHECK (is_mine IN (0,1)),
+  has_clash   INTEGER NOT NULL DEFAULT 0 CHECK (has_clash IN (0,1)),
+  decided_by  TEXT NOT NULL DEFAULT '',
+  decided_at  TEXT,
+  position    INTEGER NOT NULL DEFAULT 0,
+  created_at  TEXT NOT NULL DEFAULT (datetime('now'))
+);
+CREATE INDEX idx_leave_status ON leave_requests(status);
+CREATE INDEX idx_leave_emp    ON leave_requests(employee_id);
+
+CREATE TABLE holidays (
+  id           TEXT PRIMARY KEY,
+  holiday_date TEXT NOT NULL,
+  name         TEXT NOT NULL,
+  offices      TEXT NOT NULL DEFAULT '',
+  holiday_type TEXT NOT NULL DEFAULT 'Company-wide',
+  added_by     TEXT NOT NULL DEFAULT '',
+  position     INTEGER NOT NULL DEFAULT 0
+);
+CREATE INDEX idx_holidays_type ON holidays(holiday_type);
+
+CREATE TABLE holiday_requests (
+  id           TEXT PRIMARY KEY,
+  action       TEXT NOT NULL CHECK (action IN ('add','edit','remove')),
+  requested_by TEXT NOT NULL DEFAULT '',
+  requested_at TEXT NOT NULL DEFAULT '',
+  payload      TEXT NOT NULL DEFAULT '{}',
+  state        TEXT NOT NULL DEFAULT 'waiting'
+                 CHECK (state IN ('waiting','approved','rejected'))
+);
+
+-- ---------------------------------------------------------------------
+-- 12. Cross-cutting: activity streams and the audit trail
+-- ---------------------------------------------------------------------
+
+-- Human-readable activity feeds shown in the UI (order log, QA log...)
+CREATE TABLE activity_log (
+  id         INTEGER PRIMARY KEY AUTOINCREMENT,
+  stream     TEXT NOT NULL,
+  ref_id     TEXT NOT NULL DEFAULT '',
+  title      TEXT NOT NULL,
+  actor      TEXT NOT NULL DEFAULT '',
+  at_label   TEXT NOT NULL DEFAULT '',
+  position   INTEGER NOT NULL DEFAULT 0,
+  created_at TEXT NOT NULL DEFAULT (datetime('now'))
+);
+CREATE INDEX idx_activity_stream ON activity_log(stream, position);
+
+-- Immutable technical audit trail - one row per write, for GxP traceability
+CREATE TABLE audit_log (
+  id          INTEGER PRIMARY KEY AUTOINCREMENT,
+  user_id     TEXT,
+  user_name   TEXT NOT NULL DEFAULT 'system',
+  action      TEXT NOT NULL
+                CHECK (action IN ('create','update','delete','login','logout','reset')),
+  entity      TEXT NOT NULL,
+  entity_id   TEXT NOT NULL DEFAULT '',
+  before_json TEXT,
+  after_json  TEXT,
+  ip_address  TEXT NOT NULL DEFAULT '',
+  created_at  TEXT NOT NULL DEFAULT (datetime('now'))
+);
+CREATE INDEX idx_audit_entity ON audit_log(entity, entity_id);
+CREATE INDEX idx_audit_user   ON audit_log(user_id);
+CREATE INDEX idx_audit_time   ON audit_log(created_at);
+
+-- ---------------------------------------------------------------------
+-- 13. Triggers - keep updated_at honest without application help
+-- ---------------------------------------------------------------------
+
+CREATE TRIGGER trg_tickets_updated AFTER UPDATE ON tickets
+FOR EACH ROW WHEN NEW.updated_at = OLD.updated_at
+BEGIN UPDATE tickets SET updated_at = datetime('now') WHERE id = NEW.id; END;
+
+CREATE TRIGGER trg_orders_updated AFTER UPDATE ON orders
+FOR EACH ROW WHEN NEW.updated_at = OLD.updated_at
+BEGIN UPDATE orders SET updated_at = datetime('now') WHERE id = NEW.id; END;
+
+CREATE TRIGGER trg_cases_updated AFTER UPDATE ON cases
+FOR EACH ROW WHEN NEW.updated_at = OLD.updated_at
+BEGIN UPDATE cases SET updated_at = datetime('now') WHERE id = NEW.id; END;
+
+CREATE TRIGGER trg_qa_updated AFTER UPDATE ON qa_batches
+FOR EACH ROW WHEN NEW.updated_at = OLD.updated_at
+BEGIN UPDATE qa_batches SET updated_at = datetime('now') WHERE id = NEW.id; END;
+
+CREATE TRIGGER trg_rx_updated AFTER UPDATE ON prescriptions
+FOR EACH ROW WHEN NEW.updated_at = OLD.updated_at
+BEGIN UPDATE prescriptions SET updated_at = datetime('now') WHERE id = NEW.id; END;
+
+CREATE TRIGGER trg_suppliers_updated AFTER UPDATE ON suppliers
+FOR EACH ROW WHEN NEW.updated_at = OLD.updated_at
+BEGIN UPDATE suppliers SET updated_at = datetime('now') WHERE id = NEW.id; END;
+
+CREATE TRIGGER trg_employees_updated AFTER UPDATE ON employees
+FOR EACH ROW WHEN NEW.updated_at = OLD.updated_at
+BEGIN UPDATE employees SET updated_at = datetime('now') WHERE id = NEW.id; END;
+
+-- ---------------------------------------------------------------------
+-- 14. Views - the read models the dashboards ask for
+-- ---------------------------------------------------------------------
+
+CREATE VIEW v_ticket_counts AS
+SELECT folder, desk, priority,
+       COUNT(*)      AS total,
+       SUM(unread)   AS unread,
+       SUM(breached) AS breached
+FROM tickets
+GROUP BY folder, desk, priority;
+
+CREATE VIEW v_desk_workload AS
+SELECT d.name AS desk,
+       d.sla_target,
+       COUNT(t.id)                  AS open_tickets,
+       COALESCE(SUM(t.unread), 0)   AS unread,
+       COALESCE(SUM(t.breached), 0) AS breached,
+       COALESCE(SUM(CASE WHEN t.priority IN ('High','Urgent') THEN 1 ELSE 0 END), 0) AS urgent
+FROM desks d
+LEFT JOIN tickets t ON t.desk = d.name AND t.folder = 'inbox'
+GROUP BY d.name, d.sla_target;
+
+CREATE VIEW v_order_pipeline AS
+SELECT stage,
+       COUNT(*)        AS orders,
+       SUM(at_risk)    AS at_risk,
+       SUM(cold_chain) AS cold_chain
+FROM orders
+WHERE completed = 0
+GROUP BY stage;
+
+CREATE VIEW v_case_overview AS
+SELECT c.id, c.patient, c.manager, c.stage, c.status,
+       (SELECT COUNT(*) FROM tickets       t WHERE t.case_id = c.id) AS ticket_count,
+       (SELECT COUNT(*) FROM orders        o WHERE o.case_id = c.id) AS order_count,
+       (SELECT COUNT(*) FROM prescriptions p WHERE p.case_id = c.id) AS rx_count,
+       (SELECT COUNT(*) FROM case_timeline l WHERE l.case_id = c.id) AS timeline_count
+FROM cases c;
+
+CREATE VIEW v_expiring_certificates AS
+SELECT sc.id, sc.supplier_id, s.name AS supplier_name, s.country,
+       sc.cert_type, sc.cert_number, sc.expires_on
+FROM supplier_certificates sc
+JOIN suppliers s ON s.id = sc.supplier_id;

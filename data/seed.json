@@ -1,0 +1,3180 @@
+{
+  "stage": 1,
+  "cur": "TK-58120",
+  "rules": [
+    {
+      "kw": "invoice|payment|credit|receipt",
+      "desk": "Accounts"
+    },
+    {
+      "kw": "prescription|rx|dose|side effect",
+      "desk": "Pharmacy"
+    },
+    {
+      "kw": "parcel|delivery|shipment|courier|customs",
+      "desk": "Shipping"
+    },
+    {
+      "kw": "quote|price|proforma|order",
+      "desk": "Sales"
+    },
+    {
+      "kw": "batch|coa|recall|deviation|certificate",
+      "desk": "Quality"
+    },
+    {
+      "kw": "contract|clause|agreement|legal",
+      "desk": "Legal"
+    },
+    {
+      "kw": "leave|payslip|salary|holiday|offer letter",
+      "desk": "HR & admin"
+    },
+    {
+      "kw": "rfq|supplier|sourcing",
+      "desk": "Sourcing"
+    }
+  ],
+  "sla": {
+    "Sales": "4 h",
+    "Support": "2 h",
+    "Pharmacy": "4 h",
+    "Shipping": "2 h",
+    "Accounts": "8 h",
+    "Quality": "8 h",
+    "Legal": "24 h",
+    "HR & admin": "8 h",
+    "Sourcing": "8 h",
+    "Processing": "4 h"
+  },
+  "marginFloor": 10,
+  "notes": [
+    {
+      "id": "N1",
+      "t": "Prescription released — T. Nakamura · RX-2026-1180",
+      "d": "for the Processing desk · Internal",
+      "go": "tickets",
+      "at": "16:20",
+      "read": false
+    },
+    {
+      "id": "N2",
+      "t": "Leave application — Colm B. · 22–26 Sep",
+      "d": "waiting for HR",
+      "go": "leavemgmt",
+      "at": "09:05",
+      "read": false
+    },
+    {
+      "id": "N3",
+      "t": "Holiday request — Founder's Day",
+      "d": "HR proposed, waiting for Admin",
+      "go": "leavemgmt",
+      "at": "Yest.",
+      "read": true
+    }
+  ],
+  "labels": [
+    {
+      "id": "L1",
+      "name": "VIP patient",
+      "c": "#D93025"
+    },
+    {
+      "id": "L2",
+      "name": "Tender",
+      "c": "#7C3AED"
+    },
+    {
+      "id": "L3",
+      "name": "Follow-up",
+      "c": "#F59E0B"
+    },
+    {
+      "id": "L4",
+      "name": "Insurance",
+      "c": "#1D4ED8"
+    }
+  ],
+  "ccdecision": "",
+  "cccapa": false,
+  "wave": [
+    {
+      "id": "OR-2026-0881",
+      "who": "Den R.",
+      "drug": "Blinatumomab 35 mcg",
+      "batch": "1094327",
+      "exp": "02/2028",
+      "loc": "CR-2 · B14",
+      "qty": "3 vials",
+      "fefo": "OK",
+      "st": "picked",
+      "cold": true
+    },
+    {
+      "id": "OR-2026-0884",
+      "who": "M. Okafor",
+      "drug": "Lenvatinib 10 mg",
+      "batch": "2259870",
+      "exp": "03/2027",
+      "loc": "AM-1 · D05",
+      "qty": "60 caps",
+      "fefo": "OK",
+      "st": "picking",
+      "cold": false
+    },
+    {
+      "id": "OR-2026-0887",
+      "who": "A. Petrova",
+      "drug": "Pembrolizumab 100 mg",
+      "batch": "3390142",
+      "exp": "07/2027",
+      "loc": "CR-1 · A03",
+      "qty": "2 vials",
+      "fefo": "Breach",
+      "st": "held",
+      "cold": true,
+      "alt": {
+        "batch": "3388916",
+        "exp": "01/2027",
+        "loc": "CR-1 · A01"
+      }
+    },
+    {
+      "id": "OR-2026-0889",
+      "who": "S. Al Marri",
+      "drug": "Nusinersen 12 mg",
+      "batch": "5517230",
+      "exp": "04/2028",
+      "loc": "CR-2 · B02",
+      "qty": "1 vial",
+      "fefo": "OK",
+      "st": "qa",
+      "cold": true
+    },
+    {
+      "id": "OR-2026-0890",
+      "who": "K. Mensah",
+      "drug": "Eculizumab 300 mg",
+      "batch": "4402881",
+      "exp": "09/2027",
+      "loc": "CR-1 · A11",
+      "qty": "4 vials",
+      "fefo": "OK",
+      "st": "picked",
+      "cold": true
+    },
+    {
+      "id": "OR-2026-0892",
+      "who": "Clinique St. Anne",
+      "drug": "Imatinib 400 mg",
+      "batch": "1180934",
+      "exp": "05/2028",
+      "loc": "AM-2 · F12",
+      "qty": "90 tabs",
+      "fefo": "OK",
+      "st": "picking",
+      "cold": false
+    },
+    {
+      "id": "OR-2026-0894",
+      "who": "R. Silva",
+      "drug": "Daratumumab 400 mg",
+      "batch": "7714028",
+      "exp": "12/2027",
+      "loc": "CR-2 · B21",
+      "qty": "1 vial",
+      "fefo": "OK",
+      "st": "queued",
+      "cold": true
+    }
+  ],
+  "whphotos": 23,
+  "caselog": [
+    {
+      "c": "#0c7c94",
+      "t": "Shipment collected by World Courier",
+      "tag": "Now",
+      "at": "10 Sep &middot; 18:05",
+      "d": "AWB 020-88401925 &middot; validated 96 h shipper, 4 PCM packs, logger CT-99118 armed. ETA hospital 12 Sep 10:30.",
+      "k": "order"
+    },
+    {
+      "c": "#1c7a52",
+      "t": "QA release &amp; packing complete",
+      "tag": "",
+      "at": "10 Sep &middot; 17:05",
+      "d": "Batch 1094327 exp 03/2028 &middot; CoA matched &middot; serialisation checked against EMVS &middot; released by Arun K.",
+      "k": "order"
+    },
+    {
+      "c": "#8b98ab",
+      "t": "Call — delivery window agreed",
+      "tag": "3 m 12 s",
+      "at": "10 Sep &middot; 14:10",
+      "d": "Den R. confirmed the hospital pharmacy takes deliveries before 16:00 on Thursdays.",
+      "k": "ticket"
+    },
+    {
+      "c": "#1c7a52",
+      "t": "Payment received",
+      "tag": "$7,180",
+      "at": "09 Sep &middot; 11:20",
+      "d": "Wire, EUR settled at 1.0912 &middot; invoice INV-2026-2214 &middot; AML screening clear.",
+      "k": "payment"
+    },
+    {
+      "c": "#1c7a52",
+      "t": "Prescription verified by pharmacist",
+      "tag": "",
+      "at": "08 Sep &middot; 15:36",
+      "d": "Dr. Sara M. &mdash; prescriber licence, dose vs label, 90-day personal import limit and storage instructions all checked.",
+      "k": "order"
+    },
+    {
+      "c": "#1d4ed8",
+      "t": "Quote accepted &mdash; Option B (Germany)",
+      "tag": "",
+      "at": "07 Sep &middot; 19:02",
+      "d": "Patient chose 6-day lead time over the lower Turkey price. Margin 12.6% &middot; FX held for the life of the quote.",
+      "k": "quote"
+    },
+    {
+      "c": "#1d4ed8",
+      "t": "Quote sent &mdash; 3 sourcing options",
+      "tag": "",
+      "at": "06 Sep &middot; 10:15",
+      "d": "Germany $3,590 &middot; Turkey $2,410 &middot; United States $4,120 (all delivered prices per vial, incl. cold-chain freight and duty).",
+      "k": "quote"
+    },
+    {
+      "c": "#1d4ed8",
+      "t": "RFQ issued to 6 partners in 5 countries",
+      "tag": "",
+      "at": "05 Sep &middot; 09:30",
+      "d": "United States, Germany, United Kingdom, Turkey, Australia &middot; 4 responded within SLA, 2 chased.",
+      "k": "quote"
+    },
+    {
+      "c": "#8b98ab",
+      "t": "Ticket TK-58120 opened on WhatsApp",
+      "tag": "",
+      "at": "05 Sep &middot; 09:02",
+      "d": "Quote request for cycles 4 and 5 — routed to Sales, Priya N. assigned.",
+      "k": "ticket"
+    }
+  ],
+  "casedocs": [],
+  "casemgr": "Priya N.",
+  "rfq": {
+    "id": "RFQ-2026-1188",
+    "drug": "Blinatumomab 35 mcg powder for infusion",
+    "spec": "Originator or approved biosimilar · cycles 4 and 5 · 2 vials per cycle",
+    "qty": "4 vials",
+    "need": "18 Oct",
+    "dest": "Ireland · hospital pharmacy",
+    "storage": "2–8 °C validated lane",
+    "case": "CA-2026-0418",
+    "sent": "05 Sep 09:30",
+    "lines": [
+      {
+        "country": "Germany",
+        "partner": "Rheinpharm GmbH · WDA DE-4412",
+        "maker": "Amgen Europe",
+        "pack": "Blincyto® EU pack",
+        "batch": "1094327",
+        "exp": "03 / 2028",
+        "avail": "6 vials",
+        "landed": 3136,
+        "lead": "6",
+        "rating": "4.8 · 61 orders",
+        "flag": "Clear",
+        "note": "Authorised distributor · direct from Amgen",
+        "state": "in",
+        "sel": false
+      },
+      {
+        "country": "United States",
+        "partner": "Meridian Specialty Rx · VAWD",
+        "maker": "Amgen Inc.",
+        "pack": "US NDC pack",
+        "batch": "US-77410",
+        "exp": "06 / 2028",
+        "avail": "12 vials",
+        "landed": 3690,
+        "lead": "4",
+        "rating": "4.9 · 112 orders",
+        "flag": "Clear",
+        "note": "Authorised distributor · direct from Amgen Inc.",
+        "state": "in",
+        "sel": false
+      },
+      {
+        "country": "Turkey",
+        "partner": "Anadolu Ilaç A.Ş. · GDP TR-1180",
+        "maker": "Amgen · TR import",
+        "pack": "Turkish-language pack",
+        "batch": "TR-88213",
+        "exp": "11 / 2027",
+        "avail": "2 vials · 2 short",
+        "landed": 2065,
+        "lead": "9",
+        "rating": "4.2 · 18 orders",
+        "flag": "Licence expires 20 Sep",
+        "note": "Bought from another wholesaler · two steps from the maker",
+        "state": "in",
+        "sel": false
+      },
+      {
+        "country": "Australia",
+        "partner": "Southern Cross Pharma · TGA",
+        "maker": "Amgen Australia",
+        "pack": "AU pack, English",
+        "batch": "AU-20918",
+        "exp": "09 / 2027",
+        "avail": "4 vials",
+        "landed": 3480,
+        "lead": "12",
+        "rating": "4.6 · 37 orders",
+        "flag": "Shelf life 11 months",
+        "note": "Authorised distributor · direct",
+        "state": "in",
+        "sel": false
+      },
+      {
+        "country": "United Kingdom",
+        "partner": "Thameside Healthcare",
+        "maker": "",
+        "pack": "",
+        "batch": "",
+        "exp": "",
+        "avail": "",
+        "landed": 0,
+        "lead": "",
+        "rating": "",
+        "flag": "",
+        "note": "Awaiting a response — RFQ sent 05 Sep 09:30, chased 09 Sep. The 48 h SLA is breached.",
+        "state": "waiting",
+        "sel": false
+      },
+      {
+        "country": "India",
+        "partner": "Sunrise Global Exports",
+        "maker": "",
+        "pack": "",
+        "batch": "",
+        "exp": "",
+        "avail": "",
+        "landed": 0,
+        "lead": "",
+        "rating": "",
+        "flag": "",
+        "note": "Declined — the molecule is not marketed locally and the biosimilar is not approved for this indication.",
+        "state": "declined",
+        "sel": false
+      }
+    ],
+    "log": [
+      {
+        "t": "RFQ sent to six partners in six countries",
+        "by": "Yusuf A.",
+        "at": "05 Sep 09:30"
+      },
+      {
+        "t": "Thameside Healthcare chased · no answer",
+        "by": "Yusuf A.",
+        "at": "09 Sep 11:10"
+      }
+    ]
+  },
+  "quote": {
+    "id": "QT-2026-0931",
+    "patient": "Den R.",
+    "drug": "Blinatumomab 35 mcg · 4 vials",
+    "case": "CA-2026-0418",
+    "status": "draft",
+    "opts": [
+      {
+        "k": "A",
+        "name": "Fastest",
+        "note": "Recommended for cycle continuity",
+        "origin": "United States · US pack",
+        "lead": "4",
+        "landed": 3690,
+        "fee": 430,
+        "show": true,
+        "def": false
+      },
+      {
+        "k": "B",
+        "name": "Balanced",
+        "note": "Pre-selected for the patient",
+        "origin": "Germany · EU pack",
+        "lead": "6",
+        "landed": 3136,
+        "fee": 454,
+        "show": true,
+        "def": true
+      },
+      {
+        "k": "C",
+        "name": "Lowest cost",
+        "note": "Needs an English leaflet translation",
+        "origin": "Turkey · TR pack",
+        "lead": "9",
+        "landed": 2065,
+        "fee": 345,
+        "show": true,
+        "def": false
+      }
+    ],
+    "log": [
+      {
+        "t": "Quote built from three sourcing responses",
+        "by": "Priya N.",
+        "at": "11 Sep 16:40"
+      }
+    ]
+  },
+  "orders": [
+    {
+      "id": "OR-2026-0893",
+      "drug": "Daratumumab 400 mg",
+      "who": "R. Silva",
+      "country": "Portugal",
+      "cold": true,
+      "note": "Batch D-44102 · certificate of analysis under review",
+      "due": "16 Sep",
+      "left": "2 d 22 h",
+      "risk": false,
+      "pay": "Paid",
+      "owner": "Arun K.",
+      "stage": 0,
+      "val": "€7,180",
+      "case": "CA-2026-0431"
+    },
+    {
+      "id": "OR-2026-0879",
+      "drug": "Lenvatinib 10 mg",
+      "who": "M. Okafor",
+      "country": "Nigeria",
+      "cold": false,
+      "note": "Serialisation check pending on two packs",
+      "due": "15 Sep",
+      "left": "1 d 6 h",
+      "risk": false,
+      "pay": "Part paid",
+      "owner": "Arun K.",
+      "stage": 0,
+      "val": "$2,940",
+      "case": "CA-2026-0402"
+    },
+    {
+      "id": "OR-2026-0874",
+      "drug": "Eculizumab 300 mg",
+      "who": "K. Mensah",
+      "country": "Ghana",
+      "cold": true,
+      "note": "Inbound excursion — awaiting the stability call",
+      "due": "14 Sep",
+      "left": "4 h",
+      "risk": true,
+      "pay": "Paid",
+      "owner": "Arun K.",
+      "stage": 0,
+      "val": "$18,600",
+      "case": "CA-2026-0379"
+    },
+    {
+      "id": "OR-2026-0877",
+      "drug": "Elexacaftor combination",
+      "who": "T. Nakamura",
+      "country": "Japan",
+      "cold": false,
+      "note": "Yakkan Shoumei drafted, waiting on the consulate",
+      "due": "18 Sep",
+      "left": "4 d 22 h",
+      "risk": false,
+      "pay": "Paid",
+      "owner": "Priya N.",
+      "stage": 1,
+      "val": "$24,100",
+      "case": "CA-2026-0384"
+    },
+    {
+      "id": "OR-2026-0872",
+      "drug": "Pembrolizumab 100 mg",
+      "who": "A. Petrova",
+      "country": "Kazakhstan",
+      "cold": true,
+      "note": "Invoice and air waybill generated",
+      "due": "15 Sep",
+      "left": "1 d 9 h",
+      "risk": false,
+      "pay": "Paid",
+      "owner": "Priya N.",
+      "stage": 1,
+      "val": "$11,400",
+      "case": "CA-2026-0371"
+    },
+    {
+      "id": "OR-2026-0869",
+      "drug": "Ibrutinib 140 mg",
+      "who": "J. Baptiste",
+      "country": "Haiti",
+      "cold": false,
+      "note": "Customs data complete",
+      "due": "17 Sep",
+      "left": "3 d 22 h",
+      "risk": false,
+      "pay": "Awaiting payment",
+      "owner": "Priya N.",
+      "stage": 1,
+      "val": "$6,220",
+      "case": "CA-2026-0388"
+    },
+    {
+      "id": "OR-2026-0866",
+      "drug": "Nusinersen 12 mg",
+      "who": "S. Al Marri",
+      "country": "United Arab Emirates",
+      "cold": true,
+      "note": "Shipper conditioning · 4 h left",
+      "due": "15 Sep",
+      "left": "1 d 2 h",
+      "risk": false,
+      "pay": "Paid",
+      "owner": "Liam C.",
+      "stage": 2,
+      "val": "$21,800",
+      "case": "CA-2026-0396"
+    },
+    {
+      "id": "OR-2026-0863",
+      "drug": "Imatinib 400 mg · bulk",
+      "who": "Gulf Pharma Trading",
+      "country": "United Arab Emirates",
+      "cold": false,
+      "note": "Pick list printed — packing blocked",
+      "due": "16 Sep",
+      "left": "2 d 22 h",
+      "risk": false,
+      "pay": "INV-2176 · 17 d overdue",
+      "owner": "Liam C.",
+      "stage": 2,
+      "val": "$26,400",
+      "case": "OP-2026-0218",
+      "hold": "Credit limit reached"
+    },
+    {
+      "id": "OR-2026-0861",
+      "drug": "Trastuzumab 440 mg",
+      "who": "P. Almeida",
+      "country": "Brazil",
+      "cold": true,
+      "note": "Courier pickup booked for 14:30",
+      "due": "14 Sep",
+      "left": "6 h",
+      "risk": true,
+      "pay": "Paid",
+      "owner": "Liam C.",
+      "stage": 3,
+      "val": "$9,750",
+      "case": "CA-2026-0366"
+    },
+    {
+      "id": "OR-2026-0858",
+      "drug": "Osimertinib 80 mg",
+      "who": "L. Haddad",
+      "country": "Lebanon",
+      "cold": false,
+      "note": "Awaiting the air waybill confirmation",
+      "due": "15 Sep",
+      "left": "1 d 4 h",
+      "risk": false,
+      "pay": "Paid",
+      "owner": "Liam C.",
+      "stage": 3,
+      "val": "$4,980",
+      "case": "CA-2026-0361"
+    },
+    {
+      "id": "OR-2026-0854",
+      "drug": "Blinatumomab 35 mcg",
+      "who": "Den R.",
+      "country": "Ireland",
+      "cold": true,
+      "note": "Excursion at Frankfurt — QA decision due",
+      "due": "12 Sep",
+      "left": "1 d late",
+      "risk": true,
+      "pay": "Paid",
+      "owner": "Liam C.",
+      "stage": 4,
+      "val": "€7,180",
+      "case": "CA-2026-0418"
+    },
+    {
+      "id": "OR-2026-0851",
+      "drug": "Pembrolizumab 100 mg",
+      "who": "A. Petrova",
+      "country": "Kazakhstan",
+      "cold": true,
+      "note": "Out for delivery in Almaty",
+      "due": "13 Sep",
+      "left": "5 h",
+      "risk": false,
+      "pay": "Paid",
+      "owner": "Liam C.",
+      "stage": 4,
+      "val": "$11,400",
+      "case": "CA-2026-0371"
+    },
+    {
+      "id": "OR-2026-0847",
+      "drug": "Nusinersen 12 mg",
+      "who": "S. Al Marri",
+      "country": "United Arab Emirates",
+      "cold": true,
+      "note": "Held at Dubai customs · 6 h",
+      "due": "14 Sep",
+      "left": "1 d 3 h",
+      "risk": true,
+      "pay": "Paid",
+      "owner": "Liam C.",
+      "stage": 4,
+      "val": "$21,800",
+      "case": "CA-2026-0396"
+    }
+  ],
+  "orddone": [
+    {
+      "id": "OR-2026-0840",
+      "drug": "Imatinib 400 mg",
+      "who": "Clinique St. Anne",
+      "at": "today 09:40 · signed by C. Mercier"
+    },
+    {
+      "id": "OR-2026-0836",
+      "drug": "Nivolumab 100 mg",
+      "who": "H. Yilmaz",
+      "at": "today 08:15 · signed by the patient"
+    }
+  ],
+  "ordlog": [
+    {
+      "t": "<b>OR-2026-0851</b> handed to the courier in Almaty",
+      "by": "Liam C.",
+      "at": "08:20"
+    },
+    {
+      "t": "<b>OR-2026-0863</b> put on hold — credit limit reached",
+      "by": "Jia L.",
+      "at": "07:55"
+    }
+  ],
+  "qa": [
+    {
+      "id": "OR-2026-0893",
+      "prod": "Daratumumab 400 mg / 20 mL",
+      "batch": "D-44102",
+      "sup": "Rheinpharm GmbH",
+      "exp": "05 / 2028",
+      "temp": "2.9 – 7.1 °C, in range",
+      "tempok": true,
+      "handling": "2–8 °C",
+      "forwhom": "R. Silva · promised 16 Sep",
+      "recv": "Liam C. · 12 Sep 14:20",
+      "signer": "Arun K. · RP",
+      "waiting": "1 h 05 m",
+      "status": "review",
+      "mine": true,
+      "checks": [
+        [
+          1,
+          "Supplier qualified and licence in date",
+          "Rheinpharm · WDA verified 12 Aug"
+        ],
+        [
+          1,
+          "Batch and lot match the certificate of analysis",
+          "Assay 99.2%, appearance and pH within spec"
+        ],
+        [
+          1,
+          "Serialisation verified",
+          "2D code checked against EMVS — active, not decommissioned"
+        ],
+        [
+          1,
+          "Expiry covers the full course",
+          "05 / 2028 · 20 months remaining"
+        ],
+        [
+          1,
+          "Inbound temperature reviewed",
+          "Logger DE-77204 · 2.9 – 7.1 °C, no excursion"
+        ],
+        [
+          1,
+          "Visual inspection and tamper seal",
+          "Six photographs on file · seal intact"
+        ],
+        [
+          0,
+          "Leaflet language",
+          "German pack — the approved English translation is still to be added"
+        ],
+        [
+          1,
+          "Segregation of duties",
+          "Received by Liam C., signed out by Arun K."
+        ]
+      ]
+    },
+    {
+      "id": "OR-2026-0890",
+      "prod": "Pembrolizumab 100 mg / 4 mL",
+      "batch": "PB-55901",
+      "sup": "Meridian Clinical Supplies",
+      "exp": "11 / 2027",
+      "temp": "3.4 – 6.8 °C, in range",
+      "tempok": true,
+      "handling": "2–8 °C",
+      "forwhom": "T. Nakamura · promised 18 Sep",
+      "recv": "Liam C. · 13 Sep 09:05",
+      "signer": "Arun K. · RP",
+      "waiting": "42 m",
+      "status": "ready",
+      "mine": true,
+      "checks": [
+        [
+          1,
+          "Supplier qualified and licence in date",
+          "MHRA WDA verified 01 Sep"
+        ],
+        [
+          1,
+          "Batch and lot match the certificate of analysis",
+          "Assay 98.8% · within spec"
+        ],
+        [
+          1,
+          "Serialisation verified",
+          "Codes active on the national system"
+        ],
+        [
+          1,
+          "Expiry covers the full course",
+          "11 / 2027 · 14 months remaining"
+        ],
+        [
+          1,
+          "Inbound temperature reviewed",
+          "Logger UK-22190 · no excursion"
+        ],
+        [
+          1,
+          "Visual inspection and tamper seal",
+          "Seal intact · photographs filed"
+        ],
+        [
+          1,
+          "Leaflet language",
+          "English pack · correct for the destination"
+        ],
+        [
+          1,
+          "Segregation of duties",
+          "Received and signed out by different people"
+        ]
+      ]
+    },
+    {
+      "id": "OR-2026-0888",
+      "prod": "Nusinersen 12 mg / 5 mL",
+      "batch": "NS-30117",
+      "sup": "Nordic Rare Therapeutics",
+      "exp": "07 / 2027",
+      "temp": "2.6 – 7.4 °C, in range",
+      "tempok": true,
+      "handling": "2–8 °C",
+      "forwhom": "S. Al Marri · promised 20 Sep",
+      "recv": "Mo A. · 13 Sep 11:40",
+      "signer": "Arun K. · RP",
+      "waiting": "28 m",
+      "status": "ready",
+      "mine": false,
+      "checks": [
+        [
+          1,
+          "Supplier qualified and licence in date",
+          "Danish WDA verified 11 Aug"
+        ],
+        [
+          1,
+          "Batch and lot match the certificate of analysis",
+          "Within spec"
+        ],
+        [
+          1,
+          "Serialisation verified",
+          "Active"
+        ],
+        [
+          1,
+          "Expiry covers the full course",
+          "07 / 2027 · 10 months remaining"
+        ],
+        [
+          1,
+          "Inbound temperature reviewed",
+          "No excursion"
+        ],
+        [
+          1,
+          "Visual inspection and tamper seal",
+          "Intact"
+        ],
+        [
+          1,
+          "Leaflet language",
+          "English and Arabic in the pack"
+        ],
+        [
+          1,
+          "Segregation of duties",
+          "Two people recorded"
+        ]
+      ]
+    },
+    {
+      "id": "OR-2026-0879",
+      "prod": "Lenvatinib 10 mg capsules",
+      "batch": "LV-77321",
+      "sup": "Meridian Clinical Supplies",
+      "exp": "09 / 2028",
+      "temp": "Ambient · within 15–25 °C",
+      "tempok": true,
+      "handling": "15–25 °C",
+      "forwhom": "M. Okafor · promised 19 Sep",
+      "recv": "Mo A. · 12 Sep 16:10",
+      "signer": "Arun K. · RP",
+      "waiting": "3 h 40 m",
+      "status": "review",
+      "mine": true,
+      "checks": [
+        [
+          1,
+          "Supplier qualified and licence in date",
+          "MHRA WDA verified 01 Sep"
+        ],
+        [
+          1,
+          "Batch and lot match the certificate of analysis",
+          "Within spec"
+        ],
+        [
+          0,
+          "Serialisation verified",
+          "Two packs did not scan — waiting on the supplier to confirm the codes"
+        ],
+        [
+          1,
+          "Expiry covers the full course",
+          "09 / 2028"
+        ],
+        [
+          1,
+          "Inbound temperature reviewed",
+          "Ambient log within range"
+        ],
+        [
+          1,
+          "Visual inspection and tamper seal",
+          "Intact"
+        ],
+        [
+          1,
+          "Leaflet language",
+          "English pack"
+        ],
+        [
+          1,
+          "Segregation of duties",
+          "Two people recorded"
+        ]
+      ]
+    },
+    {
+      "id": "OR-2026-0874",
+      "prod": "Eculizumab 300 mg / 30 mL",
+      "batch": "EC-10228",
+      "sup": "Nordic Rare Therapeutics",
+      "exp": "02 / 2028",
+      "temp": "11.4 °C for 3 h · excursion",
+      "tempok": false,
+      "handling": "2–8 °C",
+      "forwhom": "K. Mensah · promised 22 Sep",
+      "recv": "Liam C. · 11 Sep 08:30",
+      "signer": "Arun K. · RP",
+      "waiting": "6 h 20 m",
+      "status": "quarantine",
+      "mine": false,
+      "quarWhy": "Inbound temperature excursion beyond the manufacturer's allowance",
+      "checks": [
+        [
+          1,
+          "Supplier qualified and licence in date",
+          "Danish WDA verified 11 Aug"
+        ],
+        [
+          1,
+          "Batch and lot match the certificate of analysis",
+          "Within spec"
+        ],
+        [
+          1,
+          "Serialisation verified",
+          "Active"
+        ],
+        [
+          1,
+          "Expiry covers the full course",
+          "02 / 2028"
+        ],
+        [
+          0,
+          "Inbound temperature reviewed",
+          "Reached 11.4 °C for 3 h — beyond the allowance, stability call with the manufacturer pending"
+        ],
+        [
+          1,
+          "Visual inspection and tamper seal",
+          "Intact"
+        ],
+        [
+          1,
+          "Leaflet language",
+          "English pack"
+        ],
+        [
+          1,
+          "Segregation of duties",
+          "Two people recorded"
+        ]
+      ]
+    },
+    {
+      "id": "OR-2026-0885",
+      "prod": "Imatinib 400 mg · bulk, 400 packs",
+      "batch": "IM-88410",
+      "sup": "Anadolu Pharma",
+      "exp": "04 / 2027",
+      "temp": "Ambient · in range",
+      "tempok": true,
+      "handling": "15–25 °C",
+      "forwhom": "Gulf Pharma Trading · bulk order",
+      "recv": "Bart K. · 12 Sep 10:15",
+      "signer": "Arun K. · RP",
+      "waiting": "2 h 10 m",
+      "status": "review",
+      "mine": false,
+      "checks": [
+        [
+          1,
+          "Supplier qualified and licence in date",
+          "Turkish GMP verified"
+        ],
+        [
+          1,
+          "Batch and lot match the certificate of analysis",
+          "Within spec"
+        ],
+        [
+          1,
+          "Serialisation verified",
+          "Bulk codes checked on a 10% sample"
+        ],
+        [
+          0,
+          "Expiry covers the full course",
+          "04 / 2027 — seven months, short for a twelve-month contract"
+        ],
+        [
+          1,
+          "Inbound temperature reviewed",
+          "Ambient log within range"
+        ],
+        [
+          1,
+          "Visual inspection and tamper seal",
+          "Intact"
+        ],
+        [
+          1,
+          "Leaflet language",
+          "English and Turkish"
+        ],
+        [
+          1,
+          "Segregation of duties",
+          "Two people recorded"
+        ]
+      ]
+    }
+  ],
+  "qadev": [
+    {
+      "id": "DV-2026-041",
+      "batch": "EC-10228",
+      "what": "Inbound leg reached 11.4 °C for 3 h",
+      "sev": "Major",
+      "state": "Investigation"
+    },
+    {
+      "id": "DV-2026-039",
+      "batch": "LV-77321",
+      "what": "Two packs did not scan on receipt",
+      "sev": "Minor",
+      "state": "With the supplier"
+    }
+  ],
+  "qalog": [
+    {
+      "t": "<b>NS-30115</b> released · Nusinersen · 1 vial",
+      "by": "Arun K. · RP",
+      "at": "13 Sep 15:05"
+    },
+    {
+      "t": "<b>IM-88402</b> released · Imatinib bulk · 200 packs",
+      "by": "Arun K. · RP",
+      "at": "13 Sep 11:20"
+    },
+    {
+      "t": "<b>PB-55890</b> returned to Meridian — seal damaged on two cartons",
+      "by": "Arun K. · RP",
+      "at": "12 Sep 16:40"
+    }
+  ],
+  "qareleased": 6,
+  "rx": [
+    {
+      "id": "RX-2026-1196",
+      "pat": "Den R.",
+      "dob": "04 / 1968",
+      "mrn": "88-41027",
+      "country": "Ireland",
+      "drug": "Blinatumomab (Blincyto®) 35 mcg vial",
+      "dose": "28 mcg / day, continuous IV infusion, days 1–28 of each cycle",
+      "diag": "B-cell acute lymphoblastic leukaemia, relapsed, Ph−",
+      "hosp": "St. James's Hospital",
+      "dept": "Department of Haematology · James's Street, Dublin 8",
+      "presc": "Prof. E. Fitzgerald",
+      "reg": "IMC 402188",
+      "dated": "10 Sep 2026",
+      "got": "11 Sep 08:40 · secure upload",
+      "tag": "Cold chain",
+      "tagc": "t-cyan",
+      "age": "02 h 14 m",
+      "sla": false,
+      "mine": true,
+      "case": "CA-2026-0418",
+      "auth": "4 vials · cycles 4 and 5",
+      "used": "0 vials",
+      "rel": "2 vials · cycle 4",
+      "exp": "10 Mar 2027",
+      "checks": [
+        [
+          1,
+          "Prescriber identity & licence",
+          "IMC register checked live · specialty matches the indication"
+        ],
+        [
+          1,
+          "Prescription authenticity",
+          "Digital signature valid · no duplicate submission"
+        ],
+        [
+          1,
+          "Patient identity match",
+          "Name, date of birth and MRN match the KYC documents"
+        ],
+        [
+          1,
+          "Dose, schedule & weight",
+          "Maintenance dose · step-up already completed in cycle 1"
+        ],
+        [
+          1,
+          "Indication vs approved use",
+          "On-label · no medical director sign-off needed"
+        ],
+        [
+          1,
+          "Interactions & contraindications",
+          "Penicillin allergy not implicated"
+        ],
+        [
+          1,
+          "Quantity vs import limit",
+          "4 vials · under the three-month personal limit"
+        ],
+        [
+          0,
+          "Refill timing",
+          "Requested six weeks ahead of the cycle 4 date — confirm the schedule with the clinic"
+        ],
+        [
+          1,
+          "Storage & handling counselling",
+          "Cold-chain leaflet queued for the delivery pack"
+        ]
+      ],
+      "status": "queue"
+    },
+    {
+      "id": "RX-2026-1194",
+      "pat": "M. Okafor",
+      "dob": "11 / 1979",
+      "mrn": "NG-22084",
+      "country": "Nigeria",
+      "drug": "Lenvatinib (Lenvima®) 10 mg capsule",
+      "dose": "8 mg once daily, continuous",
+      "diag": "Hepatocellular carcinoma, unresectable",
+      "hosp": "Lagos University Teaching Hospital",
+      "dept": "Oncology day unit · Idi-Araba, Lagos",
+      "presc": "Dr. A. Chukwu",
+      "reg": "MDCN 68120",
+      "dated": "04 Sep 2026",
+      "got": "09 Sep 14:05 · email, countersigned",
+      "tag": "Past SLA",
+      "tagc": "t-red",
+      "age": "05 h 40 m",
+      "sla": true,
+      "mine": true,
+      "case": "CA-2026-0402",
+      "auth": "90 capsules · 3 months",
+      "used": "30 capsules",
+      "rel": "30 capsules · month 2",
+      "exp": "04 Mar 2027",
+      "checks": [
+        [
+          1,
+          "Prescriber identity & licence",
+          "MDCN register checked · oncology"
+        ],
+        [
+          0,
+          "Prescription authenticity",
+          "Scanned copy only — the countersigned original is still to come"
+        ],
+        [
+          1,
+          "Patient identity match",
+          "Passport and hospital number match"
+        ],
+        [
+          1,
+          "Dose, schedule & weight",
+          "8 mg for body weight under 60 kg · correct"
+        ],
+        [
+          1,
+          "Indication vs approved use",
+          "On-label"
+        ],
+        [
+          0,
+          "Interactions & contraindications",
+          "On amlodipine — blood pressure to be monitored weekly"
+        ],
+        [
+          1,
+          "Quantity vs import limit",
+          "Within the personal import allowance"
+        ],
+        [
+          1,
+          "Refill timing",
+          "Due now · month 1 dispensed 08 Aug"
+        ],
+        [
+          1,
+          "Storage & handling counselling",
+          "Ambient · standard leaflet"
+        ]
+      ],
+      "status": "queue"
+    },
+    {
+      "id": "RX-2026-1191",
+      "pat": "S. Al Marri",
+      "dob": "02 / 2021",
+      "mrn": "AE-70155",
+      "country": "United Arab Emirates",
+      "drug": "Nusinersen (Spinraza®) 12 mg / 5 mL",
+      "dose": "12 mg intrathecal, maintenance every 4 months",
+      "diag": "Spinal muscular atrophy, type 2",
+      "hosp": "Al Jalila Children's Specialty Hospital",
+      "dept": "Neurology · Al Jaddaf, Dubai",
+      "presc": "Dr. H. Al Suwaidi",
+      "reg": "DHA 118842",
+      "dated": "08 Sep 2026",
+      "got": "10 Sep 11:20 · hospital portal",
+      "tag": "Paediatric",
+      "tagc": "t-amber",
+      "age": "01 h 08 m",
+      "sla": false,
+      "mine": false,
+      "case": "CA-2026-0396",
+      "auth": "1 vial · maintenance dose",
+      "used": "0 vials",
+      "rel": "1 vial",
+      "exp": "08 Mar 2027",
+      "checks": [
+        [
+          1,
+          "Prescriber identity & licence",
+          "DHA register checked · paediatric neurology"
+        ],
+        [
+          1,
+          "Prescription authenticity",
+          "Portal submission · signed by the consultant"
+        ],
+        [
+          1,
+          "Patient identity match",
+          "Emirates ID of the guardian on file"
+        ],
+        [
+          1,
+          "Dose, schedule & weight",
+          "Fixed 12 mg dose regardless of weight · correct"
+        ],
+        [
+          1,
+          "Indication vs approved use",
+          "On-label for SMA type 2"
+        ],
+        [
+          1,
+          "Interactions & contraindications",
+          "None recorded"
+        ],
+        [
+          1,
+          "Quantity vs import limit",
+          "Single vial · within the limit"
+        ],
+        [
+          1,
+          "Refill timing",
+          "Due 28 Sep · four months since the last dose"
+        ],
+        [
+          0,
+          "Storage & handling counselling",
+          "Guardian counselling call not yet made"
+        ]
+      ],
+      "status": "queue"
+    },
+    {
+      "id": "RX-2026-1188",
+      "pat": "J. Baptiste",
+      "dob": "07 / 1990",
+      "mrn": "HT-3391",
+      "country": "Haiti",
+      "drug": "Ruxolitinib (Jakafi®) 15 mg tablet",
+      "dose": "15 mg twice daily",
+      "diag": "Steroid-refractory graft-versus-host disease",
+      "hosp": "Hôpital Universitaire de Mirebalais",
+      "dept": "Haematology · Mirebalais",
+      "presc": "Dr. M. Pierre",
+      "reg": "MSPP 4471",
+      "dated": "01 Sep 2026",
+      "got": "09 Sep 09:15 · secure upload",
+      "tag": "Off-label",
+      "tagc": "t-violet",
+      "age": "48 m",
+      "sla": false,
+      "mine": false,
+      "case": "CA-2026-0388",
+      "auth": "120 tablets · 2 months",
+      "used": "0 tablets",
+      "rel": "60 tablets · month 1",
+      "exp": "01 Mar 2027",
+      "checks": [
+        [
+          1,
+          "Prescriber identity & licence",
+          "MSPP register checked"
+        ],
+        [
+          1,
+          "Prescription authenticity",
+          "Signature verified against the file copy"
+        ],
+        [
+          1,
+          "Patient identity match",
+          "Passport matches"
+        ],
+        [
+          1,
+          "Dose, schedule & weight",
+          "Standard adult dose"
+        ],
+        [
+          0,
+          "Indication vs approved use",
+          "Off-label in this country — medical director sign-off needed"
+        ],
+        [
+          1,
+          "Interactions & contraindications",
+          "No interacting medicines declared"
+        ],
+        [
+          1,
+          "Quantity vs import limit",
+          "Within the limit"
+        ],
+        [
+          1,
+          "Refill timing",
+          "First supply"
+        ],
+        [
+          1,
+          "Storage & handling counselling",
+          "Ambient · leaflet in French"
+        ]
+      ],
+      "status": "queue"
+    },
+    {
+      "id": "RX-2026-1185",
+      "pat": "K. Mensah",
+      "dob": "09 / 1984",
+      "mrn": "GH-5520",
+      "country": "Ghana",
+      "drug": "Eculizumab (Soliris®) 300 mg / 30 mL",
+      "dose": "900 mg IV every 14 days, maintenance",
+      "diag": "Paroxysmal nocturnal haemoglobinuria",
+      "hosp": "Korle Bu Teaching Hospital",
+      "dept": "Haematology · Accra",
+      "presc": "Dr. K. Boateng",
+      "reg": "MDC 22118",
+      "dated": "06 Sep 2026",
+      "got": "12 Sep 07:55 · secure upload",
+      "tag": "Early refill",
+      "tagc": "t-amber",
+      "age": "21 m",
+      "sla": false,
+      "mine": true,
+      "case": "CA-2026-0379",
+      "auth": "6 vials · 3 doses",
+      "used": "4 vials",
+      "rel": "2 vials",
+      "exp": "06 Mar 2027",
+      "checks": [
+        [
+          1,
+          "Prescriber identity & licence",
+          "MDC register checked"
+        ],
+        [
+          1,
+          "Prescription authenticity",
+          "Digital signature valid"
+        ],
+        [
+          1,
+          "Patient identity match",
+          "Name and hospital number match"
+        ],
+        [
+          1,
+          "Dose, schedule & weight",
+          "900 mg maintenance · correct"
+        ],
+        [
+          1,
+          "Indication vs approved use",
+          "On-label"
+        ],
+        [
+          1,
+          "Interactions & contraindications",
+          "Meningococcal vaccination confirmed 2024"
+        ],
+        [
+          1,
+          "Quantity vs import limit",
+          "Within the limit"
+        ],
+        [
+          0,
+          "Refill timing",
+          "Eleven days since the last supply — three days early, confirm the infusion date"
+        ],
+        [
+          1,
+          "Storage & handling counselling",
+          "Cold chain · leaflet with the pack"
+        ]
+      ],
+      "status": "queue"
+    }
+  ],
+  "rxq": [
+    {
+      "id": "Q-114",
+      "pat": "Den R.",
+      "q": "Cycle 4 and 5 dates — does the step-up dosing repeat?",
+      "sent": "11 Sep 09:50",
+      "state": "answered",
+      "ans": "Answered by phone 10:20 · no step-up needed"
+    },
+    {
+      "id": "Q-115",
+      "pat": "M. Okafor",
+      "q": "Current weight for the cycle 4 dose",
+      "sent": "12 Sep 08:10",
+      "state": "waiting",
+      "ans": ""
+    }
+  ],
+  "rxlog": [
+    {
+      "t": "<b>RX-2026-1180</b> released for T. Nakamura · 3 vials",
+      "by": "Dr. Sara M. · PSI 19882",
+      "at": "13 Sep 16:20"
+    },
+    {
+      "t": "<b>RX-2026-1179</b> rejected — dose outside the approved range",
+      "by": "Dr. Omar F. · PSI 20114",
+      "at": "13 Sep 11:05"
+    },
+    {
+      "t": "<b>Q-113</b> answered by the prescriber · supply resumed",
+      "by": "automatic",
+      "at": "12 Sep 15:40"
+    }
+  ],
+  "employees": [
+    {
+      "id": "E1",
+      "name": "Priya N.",
+      "dept": "Support",
+      "doa": "12 Mar 2024",
+      "sal": "$42,000",
+      "leave": "12.5 d",
+      "status": "Confirmed",
+      "docs": "Complete",
+      "ben": [
+        "PF",
+        "Insurance",
+        "Med-claim",
+        "Term plan"
+      ]
+    },
+    {
+      "id": "E2",
+      "name": "Marco B.",
+      "dept": "Sales",
+      "doa": "04 Jan 2023",
+      "sal": "$58,000",
+      "leave": "9.0 d",
+      "status": "Confirmed",
+      "docs": "Complete",
+      "ben": [
+        "PF",
+        "Insurance",
+        "Med-claim",
+        "Term plan"
+      ]
+    },
+    {
+      "id": "E3",
+      "name": "Dr. Sara M.",
+      "dept": "Pharmacy",
+      "doa": "18 Aug 2022",
+      "sal": "$76,000",
+      "leave": "16.0 d",
+      "status": "Confirmed",
+      "docs": "Complete",
+      "ben": [
+        "PF",
+        "Insurance",
+        "Med-claim",
+        "Term plan",
+        "Personal accident"
+      ]
+    },
+    {
+      "id": "E4",
+      "name": "Colm B.",
+      "dept": "Shipping",
+      "doa": "27 Jun 2023",
+      "sal": "$46,000",
+      "leave": "7.5 d",
+      "status": "Confirmed",
+      "docs": "Complete",
+      "ben": [
+        "PF",
+        "Insurance",
+        "Med-claim"
+      ]
+    },
+    {
+      "id": "E5",
+      "name": "Tom R.",
+      "dept": "Digital marketing",
+      "doa": "09 Feb 2025",
+      "sal": "$39,000",
+      "leave": "11.0 d",
+      "status": "Confirmed",
+      "docs": "Missing",
+      "ben": [
+        "PF",
+        "Insurance",
+        "Med-claim"
+      ]
+    },
+    {
+      "id": "E6",
+      "name": "Neha S.",
+      "dept": "Design",
+      "doa": "21 Nov 2024",
+      "sal": "$37,000",
+      "leave": "13.5 d",
+      "status": "Confirmed",
+      "docs": "Complete",
+      "ben": [
+        "PF",
+        "Insurance",
+        "Med-claim"
+      ]
+    },
+    {
+      "id": "E7",
+      "name": "Ivan D.",
+      "dept": "Support",
+      "doa": "11 Sep 2026",
+      "sal": "$24,000",
+      "leave": "0.0 d",
+      "status": "On probation",
+      "docs": "Missing",
+      "ben": [
+        "PF"
+      ]
+    },
+    {
+      "id": "E8",
+      "name": "Bart K.",
+      "dept": "Warehouse",
+      "doa": "15 May 2021",
+      "sal": "$31,000",
+      "leave": "18.0 d",
+      "status": "Confirmed",
+      "docs": "Complete",
+      "ben": [
+        "PF",
+        "Insurance",
+        "Med-claim",
+        "Term plan",
+        "Gratuity"
+      ]
+    },
+    {
+      "id": "E9",
+      "name": "Sam W.",
+      "dept": "Sourcing",
+      "doa": "30 Mar 2026",
+      "sal": "$44,000",
+      "leave": "4.0 d",
+      "status": "On probation",
+      "docs": "Complete",
+      "ben": [
+        "PF",
+        "Insurance"
+      ]
+    },
+    {
+      "id": "E10",
+      "name": "Paul K.",
+      "dept": "Processing",
+      "doa": "08 Aug 2022",
+      "sal": "$34,000",
+      "leave": "2.0 d",
+      "status": "Notice period",
+      "docs": "Complete",
+      "ben": [
+        "PF",
+        "Insurance",
+        "Med-claim"
+      ]
+    }
+  ],
+  "emplog": [
+    {
+      "t": "Term plan added for <b>Colm B.</b>",
+      "by": "Hannah P.",
+      "at": "11 Sep"
+    },
+    {
+      "t": "Med-claim dependants updated for <b>Dr. Sara M.</b>",
+      "by": "Hannah P.",
+      "at": "10 Sep"
+    },
+    {
+      "t": "Insurance removed for <b>Paul K.</b>, leaving 26 Sep",
+      "by": "Hannah P.",
+      "at": "09 Sep"
+    },
+    {
+      "t": "PF opened for <b>Ivan D.</b> on joining",
+      "by": "automatic",
+      "at": "11 Sep"
+    }
+  ],
+  "suppliers": [
+    {
+      "id": "SUP-014",
+      "name": "Rheinpharm GmbH",
+      "code": "AGC-SUP-014",
+      "cat": "Wholesaler",
+      "country": "Germany",
+      "city": "Cologne",
+      "reg": "DE-WDA-2021-4417",
+      "contact": "Ingo M.",
+      "email": "ingo.m@rheinpharm.example",
+      "phone": "+49 221 555 0142",
+      "terms": "30 days",
+      "cur": "EUR",
+      "lead": "7",
+      "status": "Approved",
+      "rating": "A",
+      "audit": "12 Mar 2026",
+      "naudit": "12 Mar 2027",
+      "spend": "486000",
+      "note": "First call for EU-sourced oncology. Holds stock of four of our top molecules.",
+      "certs": [
+        {
+          "id": "C1",
+          "type": "GDP",
+          "no": "GDP-DE-88142",
+          "body": "Bezirksregierung Köln",
+          "issued": "14 Feb 2024",
+          "exp": "14 Feb 2027"
+        },
+        {
+          "id": "C2",
+          "type": "Wholesale licence (WDA)",
+          "no": "DE-WDA-2021-4417",
+          "body": "Land NRW",
+          "issued": "03 Jun 2021",
+          "exp": "03 Jun 2027"
+        }
+      ]
+    },
+    {
+      "id": "SUP-021",
+      "name": "Nordic Rare Therapeutics ApS",
+      "code": "AGC-SUP-021",
+      "cat": "Named-patient supplier",
+      "country": "Denmark",
+      "city": "Copenhagen",
+      "reg": "DK-NP-2022-0918",
+      "contact": "Freja L.",
+      "email": "freja@nordicrare.example",
+      "phone": "+45 33 55 0188",
+      "terms": "45 days",
+      "cur": "EUR",
+      "lead": "12",
+      "status": "Approved",
+      "rating": "A-",
+      "audit": "22 Jan 2026",
+      "naudit": "22 Jan 2027",
+      "spend": "392000",
+      "note": "Named-patient routes for SMA and ultra-rare. QP release included in the price.",
+      "certs": [
+        {
+          "id": "C3",
+          "type": "GDP",
+          "no": "GDP-DK-2211",
+          "body": "Lægemiddelstyrelsen",
+          "issued": "09 Sep 2023",
+          "exp": "09 Sep 2026"
+        },
+        {
+          "id": "C4",
+          "type": "Wholesale licence (WDA)",
+          "no": "DK-WDA-5512",
+          "body": "Danish Medicines Agency",
+          "issued": "11 Mar 2022",
+          "exp": "11 Mar 2028"
+        }
+      ]
+    },
+    {
+      "id": "SUP-009",
+      "name": "Helvetica Biologics AG",
+      "code": "AGC-SUP-009",
+      "cat": "Manufacturer (MAH)",
+      "country": "Switzerland",
+      "city": "Basel",
+      "reg": "CH-MAH-1188",
+      "contact": "Dr. Ursula B.",
+      "email": "u.brunner@helveticabio.example",
+      "phone": "+41 61 555 0110",
+      "terms": "Advance",
+      "cur": "CHF",
+      "lead": "21",
+      "status": "On hold",
+      "rating": "B+",
+      "audit": "05 Nov 2025",
+      "naudit": "05 Nov 2026",
+      "spend": "148000",
+      "note": "On hold until the renewed EU-GMP certificate is on file. Sourcing has asked twice.",
+      "certs": [
+        {
+          "id": "C5",
+          "type": "EU-GMP",
+          "no": "CH-GMP-2023-771",
+          "body": "Swissmedic",
+          "issued": "18 Oct 2023",
+          "exp": "18 Oct 2026"
+        }
+      ]
+    },
+    {
+      "id": "SUP-032",
+      "name": "Gulf Medica Trading LLC",
+      "code": "AGC-SUP-032",
+      "cat": "Distributor",
+      "country": "United Arab Emirates",
+      "city": "Dubai",
+      "reg": "AE-DXB-778142",
+      "contact": "Khalid R.",
+      "email": "khalid@gulfmedica.example",
+      "phone": "+971 4 555 0166",
+      "terms": "60 days",
+      "cur": "AED",
+      "lead": "9",
+      "status": "Approved",
+      "rating": "B",
+      "audit": "30 Apr 2026",
+      "naudit": "30 Oct 2026",
+      "spend": "174000",
+      "note": "Gulf distribution partner. Watch the lead time in the Ramadan period.",
+      "certs": [
+        {
+          "id": "C6",
+          "type": "GDP",
+          "no": "AE-GDP-3391",
+          "body": "Ministry of Health and Prevention",
+          "issued": "02 Dec 2023",
+          "exp": "02 Dec 2026"
+        }
+      ]
+    },
+    {
+      "id": "SUP-018",
+      "name": "Osaka Speciality Pharma KK",
+      "code": "AGC-SUP-018",
+      "cat": "Manufacturer (MAH)",
+      "country": "Japan",
+      "city": "Osaka",
+      "reg": "JP-PMDA-55218",
+      "contact": "Hiro T.",
+      "email": "hiro.t@osakasp.example",
+      "phone": "+81 6 5550 0122",
+      "terms": "Letter of credit",
+      "cur": "JPY",
+      "lead": "28",
+      "status": "Approved",
+      "rating": "A",
+      "audit": "17 Jun 2026",
+      "naudit": "17 Jun 2027",
+      "spend": "268000",
+      "note": "Long lead time. Order against the forecast, not against the case.",
+      "certs": [
+        {
+          "id": "C7",
+          "type": "Manufacturing licence",
+          "no": "JP-ML-9921",
+          "body": "PMDA",
+          "issued": "01 Apr 2024",
+          "exp": "01 Apr 2029"
+        },
+        {
+          "id": "C8",
+          "type": "ISO 9001",
+          "no": "ISO-JP-44120",
+          "body": "JQA",
+          "issued": "19 May 2024",
+          "exp": "19 May 2027"
+        }
+      ]
+    },
+    {
+      "id": "SUP-041",
+      "name": "CryoLogistics Ireland Ltd",
+      "code": "AGC-SUP-041",
+      "cat": "Cold-chain packaging",
+      "country": "Ireland",
+      "city": "Dublin",
+      "reg": "IE-556412",
+      "contact": "Aoife D.",
+      "email": "aoife@cryologistics.example",
+      "phone": "+353 1 555 0177",
+      "terms": "30 days",
+      "cur": "EUR",
+      "lead": "4",
+      "status": "Approved",
+      "rating": "A",
+      "audit": "08 Aug 2026",
+      "naudit": "08 Aug 2027",
+      "spend": "96000",
+      "note": "Validated 2-8 °C shippers, 96-hour and 120-hour. Qualification reports on file.",
+      "certs": [
+        {
+          "id": "C9",
+          "type": "ISO 9001",
+          "no": "ISO-IE-7712",
+          "body": "NSAI",
+          "issued": "26 Jan 2025",
+          "exp": "26 Jan 2028"
+        },
+        {
+          "id": "C10",
+          "type": "GDP",
+          "no": "IE-GDP-2290",
+          "body": "HPRA",
+          "issued": "14 Nov 2024",
+          "exp": "14 Nov 2027"
+        }
+      ]
+    },
+    {
+      "id": "SUP-027",
+      "name": "Meridian Clinical Supplies Ltd",
+      "code": "AGC-SUP-027",
+      "cat": "Wholesaler",
+      "country": "United Kingdom",
+      "city": "Manchester",
+      "reg": "UK-WDA-118842",
+      "contact": "Sam P.",
+      "email": "sam.p@meridiancs.example",
+      "phone": "+44 161 555 0199",
+      "terms": "45 days",
+      "cur": "GBP",
+      "lead": "6",
+      "status": "Under review",
+      "rating": "B+",
+      "audit": "14 Feb 2025",
+      "naudit": "14 Sep 2026",
+      "spend": "64000",
+      "note": "Audit is due this month. Nothing new goes on order until it is closed out.",
+      "certs": [
+        {
+          "id": "C11",
+          "type": "Wholesale licence (WDA)",
+          "no": "UK-WDA-118842",
+          "body": "MHRA",
+          "issued": "21 Jul 2022",
+          "exp": "21 Jul 2027"
+        }
+      ]
+    },
+    {
+      "id": "SUP-050",
+      "name": "Andes Pharma SAC",
+      "code": "AGC-SUP-050",
+      "cat": "Distributor",
+      "country": "Peru",
+      "city": "Lima",
+      "reg": "PE-DIGEMID-3312",
+      "contact": "Marta C.",
+      "email": "marta@andespharma.example",
+      "phone": "+51 1 555 0121",
+      "terms": "Advance",
+      "cur": "USD",
+      "lead": "18",
+      "status": "Blocked",
+      "rating": "C",
+      "audit": "&mdash;",
+      "naudit": "&mdash;",
+      "spend": "0",
+      "note": "Blocked. No free-sale certificate on file and the last two lots arrived without a shipping log.",
+      "certs": []
+    }
+  ],
+  "holidays": [
+    {
+      "id": "H1",
+      "d": "02 Oct 2026",
+      "n": "Gandhi Jayanti",
+      "o": "India",
+      "t": "National",
+      "a": "approved 01 Jan 2026"
+    },
+    {
+      "id": "H2",
+      "d": "20 Oct 2026",
+      "n": "Diwali",
+      "o": "India",
+      "t": "National",
+      "a": "approved 01 Jan 2026"
+    },
+    {
+      "id": "H3",
+      "d": "02 Dec 2026",
+      "n": "UAE National Day",
+      "o": "UAE",
+      "t": "National",
+      "a": "approved 01 Jan 2026"
+    },
+    {
+      "id": "H4",
+      "d": "25 Dec 2026",
+      "n": "Christmas Day",
+      "o": "All offices",
+      "t": "Company-wide",
+      "a": "approved 01 Jan 2026"
+    },
+    {
+      "id": "H5",
+      "d": "01 Jan 2027",
+      "n": "New Year's Day",
+      "o": "All offices",
+      "t": "Company-wide",
+      "a": "approved 01 Jan 2026"
+    },
+    {
+      "id": "H6",
+      "d": "17 Mar 2027",
+      "n": "St Patrick's Day",
+      "o": "Ireland",
+      "t": "National",
+      "a": "approved 01 Jan 2026"
+    }
+  ],
+  "holreq": [
+    {
+      "rid": "HR-014",
+      "action": "add",
+      "by": "Hannah P.",
+      "at": "12 Sep",
+      "h": {
+        "id": "H7",
+        "d": "14 Nov 2026",
+        "n": "Founder's Day",
+        "o": "All offices",
+        "t": "Company-wide"
+      }
+    }
+  ],
+  "leave": [
+    {
+      "id": "LV-2026-0188",
+      "who": "Priya N.",
+      "dept": "Support",
+      "type": "Earned leave",
+      "from": "14 Oct",
+      "to": "15 Oct",
+      "days": "2.0",
+      "reason": "Diwali travel",
+      "cover": "Noor H. covers the desk",
+      "status": "waiting",
+      "mine": true
+    },
+    {
+      "id": "LV-2026-0186",
+      "who": "Colm B.",
+      "dept": "Shipping",
+      "type": "Earned leave",
+      "from": "22 Sep",
+      "to": "26 Sep",
+      "days": "5.0",
+      "reason": "Annual holiday",
+      "cover": "Fatima Z. covers the Europe lanes",
+      "status": "waiting"
+    },
+    {
+      "id": "LV-2026-0184",
+      "who": "Dr. Omar F.",
+      "dept": "Pharmacy",
+      "type": "Earned leave",
+      "from": "18 Sep",
+      "to": "19 Sep",
+      "days": "2.0",
+      "reason": "Personal",
+      "cover": "Clashes with Dr. Sara M.",
+      "status": "waiting",
+      "clash": true
+    },
+    {
+      "id": "LV-2026-0181",
+      "who": "Bart K.",
+      "dept": "Warehouse",
+      "type": "Comp-off",
+      "from": "16 Sep",
+      "to": "16 Sep",
+      "days": "1.0",
+      "reason": "Worked the Saturday dispatch",
+      "cover": "Mo A.",
+      "status": "approved"
+    },
+    {
+      "id": "LV-2026-0179",
+      "who": "Ana R.",
+      "dept": "Warehouse",
+      "type": "Sick leave",
+      "from": "11 Sep",
+      "to": "11 Sep",
+      "days": "1.0",
+      "reason": "Recorded, no certificate needed",
+      "cover": "&mdash;",
+      "status": "recorded"
+    },
+    {
+      "id": "LV-2026-0175",
+      "who": "Zoe M.",
+      "dept": "Digital marketing",
+      "type": "Unpaid leave",
+      "from": "05 Oct",
+      "to": "09 Oct",
+      "days": "5.0",
+      "reason": "No balance left, loss of pay agreed",
+      "cover": "Tom R.",
+      "status": "lop"
+    },
+    {
+      "id": "LV-2026-0166",
+      "who": "Priya N.",
+      "dept": "Support",
+      "type": "Earned leave",
+      "from": "12 Aug",
+      "to": "13 Aug",
+      "days": "2.0",
+      "reason": "Family wedding",
+      "cover": "Noor H.",
+      "status": "approved",
+      "mine": true
+    },
+    {
+      "id": "LV-2026-0158",
+      "who": "Priya N.",
+      "dept": "Support",
+      "type": "Sick leave",
+      "from": "28 Jul",
+      "to": "28 Jul",
+      "days": "1.0",
+      "reason": "Fever",
+      "cover": "&mdash;",
+      "status": "recorded",
+      "mine": true
+    },
+    {
+      "id": "LV-2026-0141",
+      "who": "Priya N.",
+      "dept": "Support",
+      "type": "Casual leave",
+      "from": "09 Jun",
+      "to": "09 Jun",
+      "days": "1.0",
+      "reason": "Personal",
+      "cover": "Kwame O.",
+      "status": "approved",
+      "mine": true
+    },
+    {
+      "id": "LV-2026-0120",
+      "who": "Priya N.",
+      "dept": "Support",
+      "type": "Earned leave",
+      "from": "21 Apr",
+      "to": "25 Apr",
+      "days": "5.0",
+      "reason": "Annual holiday",
+      "cover": "Noor H.",
+      "status": "approved",
+      "mine": true
+    }
+  ],
+  "tickets": [
+    {
+      "id": "TK-58118",
+      "from": "Den R.",
+      "who": "Patient",
+      "subj": "Re: Quote for cycles 4 and 5 — Blincyto",
+      "prev": "Quote QT-2026-0931 attached, option B at $3,590…",
+      "chan": "Email",
+      "desk": "Sales",
+      "owner": "me",
+      "unread": false,
+      "star": false,
+      "att": true,
+      "time": "11:05",
+      "pri": "Normal",
+      "folder": "sent",
+      "thread": [
+        {
+          "who": "Priya N.",
+          "side": "out",
+          "chan": "Email",
+          "at": "11:05",
+          "txt": "Quote QT-2026-0931 attached. Option B at $3,590, six days, EU pack. It holds for seven days."
+        }
+      ]
+    },
+    {
+      "id": "TK-58116",
+      "from": "St. James's Hospital",
+      "who": "Hospital",
+      "subj": "Delivery slot confirmed — Thursday 10:30",
+      "prev": "the courier will bring the temperature report…",
+      "chan": "Email",
+      "desk": "Shipping",
+      "unread": false,
+      "star": false,
+      "att": false,
+      "time": "Yest.",
+      "pri": "Normal",
+      "folder": "sent",
+      "thread": [
+        {
+          "who": "Liam C.",
+          "side": "out",
+          "chan": "Email",
+          "at": "Yest.",
+          "txt": "Thursday 10:30 confirmed. The courier brings the temperature report and the CoA with the parcel."
+        }
+      ]
+    },
+    {
+      "id": "TK-58112",
+      "from": "Rheinpharm GmbH",
+      "who": "Partner",
+      "subj": "RFQ-2026-1188 — please confirm batch and shelf life",
+      "prev": "",
+      "chan": "Portal",
+      "desk": "Sourcing",
+      "unread": false,
+      "star": true,
+      "att": false,
+      "time": "09 Sep",
+      "pri": "Normal",
+      "folder": "sent",
+      "thread": [
+        {
+          "who": "Yusuf A.",
+          "side": "out",
+          "chan": "Portal",
+          "at": "09 Sep",
+          "txt": "Please confirm the batch number and remaining shelf life for the six vials offered."
+        }
+      ]
+    },
+    {
+      "id": "TK-58123",
+      "from": "Hope Foundation",
+      "who": "NGO",
+      "subj": "Draft: Access pricing proposal for 40 patients",
+      "prev": "not sent — waiting on the landed cost from sourcing…",
+      "chan": "Email",
+      "desk": "Sales",
+      "unread": false,
+      "star": false,
+      "att": true,
+      "time": "08:12",
+      "pri": "Normal",
+      "folder": "drafts",
+      "thread": [
+        {
+          "who": "Marco B.",
+          "side": "out",
+          "chan": "Email",
+          "at": "draft",
+          "txt": "Draft — access pricing for 40 patients in Ghana. Waiting on the landed cost from sourcing before this goes."
+        }
+      ]
+    },
+    {
+      "id": "TK-58122",
+      "from": "M. Okafor",
+      "who": "Patient",
+      "subj": "Draft: Cycle 2 prescription received",
+      "prev": "",
+      "chan": "WhatsApp",
+      "desk": "Pharmacy",
+      "unread": false,
+      "star": false,
+      "att": false,
+      "time": "Yest.",
+      "pri": "Normal",
+      "folder": "drafts",
+      "thread": [
+        {
+          "who": "Dr. Sara M.",
+          "side": "out",
+          "chan": "WhatsApp",
+          "at": "draft",
+          "txt": "Draft — thank you, the signed copy is received and is with the pharmacist now."
+        }
+      ]
+    },
+    {
+      "id": "TK-58010",
+      "from": "webinar-invites@mailer.example",
+      "who": "Unknown",
+      "subj": "Free webinar: pharma supply chains in 2027",
+      "prev": "",
+      "chan": "Email",
+      "desk": "",
+      "unread": false,
+      "star": false,
+      "att": false,
+      "time": "01 Sep",
+      "pri": "Low",
+      "folder": "trash",
+      "was": "spam",
+      "thread": [
+        {
+          "who": "Unknown sender",
+          "side": "in",
+          "chan": "Email",
+          "at": "01 Sep",
+          "txt": "Marketing invitation — trashed."
+        }
+      ]
+    },
+    {
+      "id": "TK-58120",
+      "labels": [
+        "L1"
+      ],
+      "from": "Den R.",
+      "who": "Patient",
+      "subj": "Quote for cycles 4 and 5 — Blincyto",
+      "prev": "my consultant wants both cycles booked before 20 Oct…",
+      "chan": "WhatsApp",
+      "desk": "Sales",
+      "owner": "me",
+      "unread": true,
+      "star": true,
+      "att": true,
+      "time": "10:22",
+      "pri": "High",
+      "folder": "inbox",
+      "thread": [
+        {
+          "who": "Den R.",
+          "side": "in",
+          "chan": "WhatsApp",
+          "at": "10:22",
+          "txt": "Cycle 3 is on its way, thank you. My consultant now wants cycles 4 and 5 booked together. Can you quote for two cycles delivered before 20 October, and does the price hold if I pay for both now?",
+          "att": [
+            "Rx-cycles-4-5.pdf · 240 KB",
+            "consultant-note.jpg · 1.1 MB"
+          ]
+        },
+        {
+          "who": "Auto-reply",
+          "side": "out",
+          "at": "10:23",
+          "txt": "Thank you — your enquiry is logged as TK-58120. A case manager will reply within 1 hour."
+        },
+        {
+          "who": "Priya N.",
+          "side": "out",
+          "at": "10:41",
+          "txt": "I have opened a sourcing request for both cycles with delivery before 20 October. You will have the options by 12 September."
+        }
+      ]
+    },
+    {
+      "id": "TK-58117",
+      "labels": [
+        "L2"
+      ],
+      "from": "Clinique St. Anne",
+      "who": "Clinic",
+      "subj": "Bulk enquiry — 300 packs Imatinib",
+      "prev": "please quote for quarterly supply with…",
+      "chan": "LinkedIn",
+      "desk": "",
+      "unread": true,
+      "star": false,
+      "att": false,
+      "time": "09:48",
+      "pri": "High",
+      "folder": "inbox",
+      "thread": [
+        {
+          "who": "Clinique St. Anne",
+          "side": "in",
+          "chan": "LinkedIn",
+          "at": "09:48",
+          "txt": "We are looking for a quarterly supply of 300 packs of Imatinib 400 mg for our day unit. Can you quote on credit terms?"
+        }
+      ]
+    },
+    {
+      "id": "TK-58114",
+      "from": "S. Al Marri",
+      "who": "Patient",
+      "subj": "Where is my parcel?",
+      "prev": "",
+      "chan": "WhatsApp",
+      "desk": "Shipping",
+      "unread": true,
+      "star": false,
+      "att": false,
+      "time": "06:10",
+      "pri": "Urgent",
+      "folder": "inbox",
+      "breached": true,
+      "thread": [
+        {
+          "who": "S. Al Marri",
+          "side": "in",
+          "chan": "WhatsApp",
+          "at": "06:10",
+          "txt": "The tracking has not moved since yesterday morning. My son's next dose is Thursday."
+        }
+      ]
+    },
+    {
+      "id": "TK-58101",
+      "from": "A. Petrova",
+      "who": "Patient",
+      "subj": "Side effect after cycle 2",
+      "prev": "",
+      "chan": "Email",
+      "desk": "Pharmacy",
+      "unread": true,
+      "star": false,
+      "att": true,
+      "time": "Yest.",
+      "pri": "Urgent",
+      "folder": "inbox",
+      "esc": "Pharmacovigilance",
+      "thread": [
+        {
+          "who": "A. Petrova",
+          "side": "in",
+          "chan": "Email",
+          "at": "Yest. 14:02",
+          "txt": "Two days after the second cycle I had a fever and a rash across my chest. My doctor has seen me.",
+          "att": [
+            "photo.jpg · 820 KB"
+          ]
+        },
+        {
+          "who": "System",
+          "side": "out",
+          "at": "Yest. 14:08",
+          "txt": "Escalated to Pharmacovigilance by rule R-01. Regulatory clock started at 14:02, day 1 of 15."
+        }
+      ]
+    },
+    {
+      "id": "TK-58085",
+      "from": "Dr. R. Almeida",
+      "who": "Prescriber",
+      "subj": "Can you supply to Brazil? Import rules query",
+      "prev": "patient with CML, no local supply…",
+      "chan": "Google",
+      "desk": "Quality",
+      "unread": true,
+      "star": false,
+      "att": false,
+      "time": "Yest.",
+      "pri": "Normal",
+      "folder": "inbox",
+      "thread": [
+        {
+          "who": "Dr. R. Almeida",
+          "side": "in",
+          "chan": "Google",
+          "at": "Yest. 12:07",
+          "txt": "I have a CML patient who cannot get nilotinib locally. What is required to import for a named patient in Brazil?"
+        }
+      ]
+    },
+    {
+      "id": "TK-58096",
+      "from": "Gulf Pharma Trading",
+      "who": "Distributor",
+      "subj": "Price list request for Q4 — 14 molecules",
+      "prev": "",
+      "chan": "Portal",
+      "desk": "Sales",
+      "unread": true,
+      "star": false,
+      "att": true,
+      "time": "Yest.",
+      "pri": "Normal",
+      "folder": "inbox",
+      "thread": [
+        {
+          "who": "Gulf Pharma Trading",
+          "side": "in",
+          "chan": "Portal",
+          "at": "Yest. 11:19",
+          "txt": "Please send your Q4 price list for the attached 14 molecules, DDP Dubai.",
+          "att": [
+            "molecule-list.xlsx · 34 KB"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "TK-58109",
+      "from": "L. Haddad",
+      "who": "Patient",
+      "subj": "Is this the genuine product?",
+      "prev": "the pack looks different from last time…",
+      "chan": "Web form",
+      "desk": "Pharmacy",
+      "unread": false,
+      "star": false,
+      "att": false,
+      "time": "Yest.",
+      "pri": "Normal",
+      "folder": "inbox",
+      "thread": [
+        {
+          "who": "L. Haddad",
+          "side": "in",
+          "chan": "Web form",
+          "at": "Yest. 17:35",
+          "txt": "The carton looks different from the one I received in July. Is it the same medicine?"
+        },
+        {
+          "who": "Dr. Sara M.",
+          "side": "out",
+          "at": "Yest. 18:02",
+          "txt": "It is the same product sourced from Germany this time, so the carton is the EU pack. Batch 1094327, verified against the manufacturer's certificate."
+        }
+      ]
+    },
+    {
+      "id": "TK-58090",
+      "labels": [
+        "L3",
+        "L4"
+      ],
+      "from": "Clinique St. Anne",
+      "who": "Clinic",
+      "subj": "Payment not credited — INV-2026-2176",
+      "prev": "our bank shows it left on…",
+      "chan": "Email",
+      "desk": "Accounts",
+      "unread": false,
+      "star": false,
+      "att": true,
+      "time": "09 Sep",
+      "pri": "High",
+      "folder": "inbox",
+      "status": "waiting",
+      "thread": [
+        {
+          "who": "Clinique St. Anne",
+          "side": "in",
+          "chan": "Email",
+          "at": "09 Sep 16:44",
+          "txt": "Our bank confirms the transfer left on 2 September. Please check and release the hold.",
+          "att": [
+            "swift-advice.pdf · 88 KB"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "TK-58078",
+      "from": "Southern Cross Pharma",
+      "who": "Partner",
+      "subj": "Contract clause query on quality agreement",
+      "prev": "",
+      "chan": "Email",
+      "desk": "Legal",
+      "unread": false,
+      "star": false,
+      "att": false,
+      "time": "08 Sep",
+      "pri": "Low",
+      "folder": "inbox",
+      "thread": [
+        {
+          "who": "Southern Cross Pharma",
+          "side": "in",
+          "chan": "Email",
+          "at": "08 Sep 15:50",
+          "txt": "Clause 7.2 on excursion notification — can we agree 48 hours rather than 24?"
+        }
+      ]
+    },
+    {
+      "id": "TK-58074",
+      "from": "M. Okafor",
+      "who": "Patient",
+      "subj": "Prescription for cycle 2 attached",
+      "prev": "sending the signed copy from my…",
+      "chan": "WhatsApp",
+      "desk": "Pharmacy",
+      "unread": false,
+      "star": false,
+      "att": true,
+      "time": "08 Sep",
+      "pri": "Normal",
+      "folder": "inbox",
+      "thread": [
+        {
+          "who": "M. Okafor",
+          "side": "in",
+          "chan": "WhatsApp",
+          "at": "08 Sep 10:12",
+          "txt": "Here is the signed prescription for the second cycle.",
+          "att": [
+            "rx-okafor-c2.pdf · 310 KB"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "TK-58070",
+      "from": "St. James's Hospital",
+      "who": "Hospital",
+      "subj": "Delivery window for Thursday — pharmacy closes 16:00",
+      "prev": "",
+      "chan": "Email",
+      "desk": "Shipping",
+      "unread": false,
+      "star": false,
+      "att": false,
+      "time": "08 Sep",
+      "pri": "Normal",
+      "folder": "inbox",
+      "thread": [
+        {
+          "who": "St. James's Hospital",
+          "side": "in",
+          "chan": "Email",
+          "at": "08 Sep 09:30",
+          "txt": "Please make sure Thursday's cold-chain delivery arrives before 16:00 — the pharmacy closes then."
+        }
+      ]
+    },
+    {
+      "id": "TK-58066",
+      "from": "Rheinpharm GmbH",
+      "who": "Partner",
+      "subj": "CoA for batch 1094327 attached",
+      "prev": "",
+      "chan": "Portal",
+      "desk": "Quality",
+      "unread": false,
+      "star": false,
+      "att": true,
+      "time": "07 Sep",
+      "pri": "Normal",
+      "folder": "inbox",
+      "thread": [
+        {
+          "who": "Rheinpharm GmbH",
+          "side": "in",
+          "chan": "Portal",
+          "at": "07 Sep 14:20",
+          "txt": "Certificate of analysis for batch 1094327.",
+          "att": [
+            "CoA-1094327.pdf · 190 KB"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "TK-58061",
+      "from": "K. Mensah",
+      "who": "Patient",
+      "subj": "Any update on my sourcing request?",
+      "prev": "it has been nine days…",
+      "chan": "WhatsApp",
+      "desk": "Sales",
+      "unread": false,
+      "star": false,
+      "att": false,
+      "time": "07 Sep",
+      "pri": "High",
+      "folder": "inbox",
+      "thread": [
+        {
+          "who": "K. Mensah",
+          "side": "in",
+          "chan": "WhatsApp",
+          "at": "07 Sep 08:05",
+          "txt": "It has been nine days since I asked about eculizumab. Is there any news?"
+        }
+      ]
+    },
+    {
+      "id": "TK-58055",
+      "from": "T. Nakamura",
+      "who": "Patient",
+      "subj": "Yakkan Shoumei paperwork — what do I need to sign?",
+      "prev": "",
+      "chan": "Web form",
+      "desk": "Quality",
+      "unread": false,
+      "star": false,
+      "att": false,
+      "time": "06 Sep",
+      "pri": "Normal",
+      "folder": "inbox",
+      "thread": [
+        {
+          "who": "T. Nakamura",
+          "side": "in",
+          "chan": "Web form",
+          "at": "06 Sep 13:44",
+          "txt": "Customs mentioned a Yakkan Shoumei. What do I need to sign and when?"
+        }
+      ]
+    },
+    {
+      "id": "TK-58050",
+      "from": "Meridian Specialty Rx",
+      "who": "Partner",
+      "subj": "RFQ-2026-1188 response — price and batch attached",
+      "prev": "",
+      "chan": "Portal",
+      "desk": "Sales",
+      "unread": false,
+      "star": false,
+      "att": true,
+      "time": "06 Sep",
+      "pri": "Normal",
+      "folder": "inbox",
+      "thread": [
+        {
+          "who": "Meridian Specialty Rx",
+          "side": "in",
+          "chan": "Portal",
+          "at": "06 Sep 16:40",
+          "txt": "Our response to RFQ-2026-1188: $3,180 ex-works, batch US-77410, expiry 06/2028, 4 days.",
+          "att": [
+            "quote-meridian.pdf · 120 KB"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "TK-58044",
+      "labels": [
+        "L4"
+      ],
+      "from": "J. Baptiste",
+      "who": "Patient",
+      "subj": "Insurance reimbursement letter request",
+      "prev": "",
+      "chan": "Email",
+      "desk": "Accounts",
+      "unread": false,
+      "star": false,
+      "att": false,
+      "time": "05 Sep",
+      "pri": "Normal",
+      "folder": "inbox",
+      "thread": [
+        {
+          "who": "J. Baptiste",
+          "side": "in",
+          "chan": "Email",
+          "at": "05 Sep 11:02",
+          "txt": "My insurer needs a letter with the product, batch and price. Can you issue one?"
+        }
+      ]
+    },
+    {
+      "id": "TK-58040",
+      "from": "Anadolu İlaç",
+      "who": "Partner",
+      "subj": "Export licence renewal — certificate attached",
+      "prev": "",
+      "chan": "Portal",
+      "desk": "Quality",
+      "unread": false,
+      "star": false,
+      "att": true,
+      "time": "05 Sep",
+      "pri": "High",
+      "folder": "inbox",
+      "thread": [
+        {
+          "who": "Anadolu İlaç",
+          "side": "in",
+          "chan": "Portal",
+          "at": "05 Sep 09:15",
+          "txt": "Renewal certificate for our export licence, valid to 20 September 2027.",
+          "att": [
+            "licence-tr-1180.pdf · 260 KB"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "TK-58031",
+      "labels": [
+        "L2"
+      ],
+      "from": "Hope Foundation",
+      "who": "NGO",
+      "subj": "Grant-funded supply for 40 patients in Ghana",
+      "prev": "",
+      "chan": "LinkedIn",
+      "desk": "Sales",
+      "unread": false,
+      "star": false,
+      "att": false,
+      "time": "04 Sep",
+      "pri": "Normal",
+      "folder": "inbox",
+      "thread": [
+        {
+          "who": "Hope Foundation",
+          "side": "in",
+          "chan": "LinkedIn",
+          "at": "04 Sep 15:20",
+          "txt": "We have grant funding for 40 patients needing eculizumab in Ghana. Can you supply at access pricing?"
+        }
+      ]
+    },
+    {
+      "id": "TK-58121",
+      "from": "Pharma Expo Dubai",
+      "who": "Event",
+      "subj": "Sponsorship and stand enquiry",
+      "prev": "",
+      "chan": "Email",
+      "desk": "Marketing",
+      "unread": true,
+      "star": false,
+      "att": false,
+      "time": "08:40",
+      "pri": "Low",
+      "folder": "inbox",
+      "thread": [
+        {
+          "who": "Pharma Expo Dubai",
+          "side": "in",
+          "chan": "Email",
+          "at": "08:40",
+          "txt": "Would Apple Globalcare like a stand at the February event? Packages attached on request."
+        }
+      ]
+    },
+    {
+      "id": "TK-58119",
+      "from": "Health writer",
+      "who": "Press",
+      "subj": "Press question on named-patient supply",
+      "prev": "",
+      "chan": "LinkedIn",
+      "desk": "Marketing",
+      "unread": true,
+      "star": false,
+      "att": false,
+      "time": "Yest.",
+      "pri": "Normal",
+      "folder": "inbox",
+      "thread": [
+        {
+          "who": "Health writer",
+          "side": "in",
+          "chan": "LinkedIn",
+          "at": "Yest. 15:10",
+          "txt": "I am writing about access to orphan medicines. Could someone explain how named-patient supply works?"
+        }
+      ]
+    },
+    {
+      "id": "TK-58112",
+      "from": "Web visitor",
+      "who": "Lead",
+      "subj": "Newsletter sign-up, consent query",
+      "prev": "",
+      "chan": "Web form",
+      "desk": "Marketing",
+      "unread": false,
+      "star": false,
+      "att": false,
+      "time": "10 Sep",
+      "pri": "Low",
+      "folder": "inbox",
+      "thread": [
+        {
+          "who": "Web visitor",
+          "side": "in",
+          "chan": "Web form",
+          "at": "10 Sep",
+          "txt": "What do you do with my email address if I subscribe?"
+        }
+      ]
+    },
+    {
+      "id": "TK-58123",
+      "from": "Anonymous enquiry",
+      "who": "Unknown",
+      "subj": "Do you supply to Morocco?",
+      "prev": "",
+      "chan": "Live chat",
+      "desk": "Support",
+      "unread": true,
+      "star": false,
+      "att": false,
+      "time": "11:05",
+      "pri": "Normal",
+      "folder": "inbox",
+      "thread": [
+        {
+          "who": "Anonymous enquiry",
+          "side": "in",
+          "chan": "Live chat",
+          "at": "11:05",
+          "txt": "Do you supply to Morocco, and how long does it usually take?"
+        }
+      ]
+    },
+    {
+      "id": "TK-58120b",
+      "from": "R. Silva",
+      "who": "Patient",
+      "subj": "How do I start a request?",
+      "prev": "",
+      "chan": "Live chat",
+      "desk": "Support",
+      "unread": false,
+      "star": false,
+      "att": false,
+      "time": "10 Sep",
+      "pri": "Normal",
+      "folder": "inbox",
+      "thread": [
+        {
+          "who": "R. Silva",
+          "side": "in",
+          "chan": "Live chat",
+          "at": "10 Sep",
+          "txt": "My doctor mentioned you can source a medicine we cannot get here. Where do I start?"
+        }
+      ]
+    },
+    {
+      "id": "TK-58105",
+      "from": "M. Okafor",
+      "who": "Patient",
+      "subj": "Can you resend the pro forma invoice?",
+      "prev": "",
+      "chan": "Email",
+      "desk": "Processing",
+      "unread": true,
+      "star": false,
+      "att": false,
+      "time": "07:55",
+      "pri": "Normal",
+      "folder": "inbox",
+      "thread": [
+        {
+          "who": "M. Okafor",
+          "side": "in",
+          "chan": "Email",
+          "at": "07:55",
+          "txt": "My bank needs the pro forma again, the first copy did not open."
+        }
+      ]
+    },
+    {
+      "id": "TK-58099",
+      "from": "St. James's Hospital",
+      "who": "Hospital",
+      "subj": "Purchase order number correction",
+      "prev": "",
+      "chan": "Email",
+      "desk": "Processing",
+      "unread": false,
+      "star": false,
+      "att": false,
+      "time": "10 Sep",
+      "pri": "Normal",
+      "folder": "inbox",
+      "thread": [
+        {
+          "who": "St. James's Hospital",
+          "side": "in",
+          "chan": "Email",
+          "at": "10 Sep",
+          "txt": "The PO on the order should read PO-44812, not PO-44182."
+        }
+      ]
+    },
+    {
+      "id": "TK-58093",
+      "from": "Den R.",
+      "who": "Patient",
+      "subj": "Delivery address change before dispatch",
+      "prev": "",
+      "chan": "WhatsApp",
+      "desk": "Processing",
+      "unread": false,
+      "star": false,
+      "att": false,
+      "time": "10 Sep",
+      "pri": "Normal",
+      "folder": "inbox",
+      "thread": [
+        {
+          "who": "Den R.",
+          "side": "in",
+          "chan": "WhatsApp",
+          "at": "10 Sep",
+          "txt": "Please send cycle 4 to the clinic rather than my home address."
+        }
+      ]
+    },
+    {
+      "id": "TK-58118",
+      "from": "T. Nakamura",
+      "who": "Patient",
+      "subj": "Customs asked for a permit copy",
+      "prev": "",
+      "chan": "Web form",
+      "desk": "Shipping",
+      "unread": true,
+      "star": false,
+      "att": false,
+      "time": "06:30",
+      "pri": "High",
+      "folder": "inbox",
+      "thread": [
+        {
+          "who": "T. Nakamura",
+          "side": "in",
+          "chan": "Web form",
+          "at": "06:30",
+          "txt": "Customs in Osaka are asking me for a copy of the import permit."
+        }
+      ]
+    },
+    {
+      "id": "TK-58115",
+      "from": "Gulf Pharma Trading",
+      "who": "Distributor",
+      "subj": "Credit terms for the Q4 order",
+      "prev": "",
+      "chan": "Portal",
+      "desk": "Accounts",
+      "unread": true,
+      "star": false,
+      "att": false,
+      "time": "Yest.",
+      "pri": "Normal",
+      "folder": "inbox",
+      "thread": [
+        {
+          "who": "Gulf Pharma Trading",
+          "side": "in",
+          "chan": "Portal",
+          "at": "Yest. 09:22",
+          "txt": "Can we move to 45 day terms for the Q4 order?"
+        }
+      ]
+    },
+    {
+      "id": "TK-58116",
+      "from": "Rheinpharm GmbH",
+      "who": "Partner",
+      "subj": "Data processing agreement for review",
+      "prev": "",
+      "chan": "Portal",
+      "desk": "Legal",
+      "unread": true,
+      "star": false,
+      "att": true,
+      "time": "Yest.",
+      "pri": "Normal",
+      "folder": "inbox",
+      "thread": [
+        {
+          "who": "Rheinpharm GmbH",
+          "side": "in",
+          "chan": "Portal",
+          "at": "Yest. 13:40",
+          "txt": "Our updated DPA for your review.",
+          "att": [
+            "dpa-rheinpharm-v3.pdf · 210 KB"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "TK-58113",
+      "from": "St. James's Hospital",
+      "who": "Hospital",
+      "subj": "Tender terms and conditions",
+      "prev": "",
+      "chan": "Email",
+      "desk": "Legal",
+      "unread": false,
+      "star": false,
+      "att": true,
+      "time": "10 Sep",
+      "pri": "Normal",
+      "folder": "inbox",
+      "thread": [
+        {
+          "who": "St. James's Hospital",
+          "side": "in",
+          "chan": "Email",
+          "at": "10 Sep",
+          "txt": "Our standard tender terms, please confirm acceptance or mark up.",
+          "att": [
+            "tender-terms.docx · 96 KB"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "TK-58122",
+      "from": "Ivan D.",
+      "who": "Staff",
+      "subj": "System access and desk assignment",
+      "prev": "",
+      "chan": "Internal",
+      "desk": "HR & admin",
+      "unread": true,
+      "star": false,
+      "att": false,
+      "time": "09:15",
+      "pri": "Normal",
+      "folder": "inbox",
+      "thread": [
+        {
+          "who": "Ivan D.",
+          "side": "in",
+          "chan": "Internal",
+          "at": "09:15",
+          "txt": "I start on the support desk today and cannot see the ticket queue yet."
+        }
+      ]
+    },
+    {
+      "id": "TK-58124",
+      "from": "Candidate · pharmacist",
+      "who": "Candidate",
+      "subj": "Interview scheduling",
+      "prev": "",
+      "chan": "Email",
+      "desk": "HR & admin",
+      "unread": true,
+      "star": false,
+      "att": false,
+      "time": "Yest.",
+      "pri": "Normal",
+      "folder": "inbox",
+      "thread": [
+        {
+          "who": "Candidate · pharmacist",
+          "side": "in",
+          "chan": "Email",
+          "at": "Yest. 16:50",
+          "txt": "Thank you for the offer of an interview — Thursday afternoon works for me."
+        }
+      ]
+    },
+    {
+      "id": "TK-58111",
+      "from": "Warehouse team",
+      "who": "Staff",
+      "subj": "Badges for the new QA area",
+      "prev": "",
+      "chan": "Internal",
+      "desk": "HR & admin",
+      "unread": false,
+      "star": false,
+      "att": false,
+      "time": "10 Sep",
+      "pri": "Low",
+      "folder": "inbox",
+      "thread": [
+        {
+          "who": "Warehouse team",
+          "side": "in",
+          "chan": "Internal",
+          "at": "10 Sep",
+          "txt": "Three of us need badge access to the new QA area."
+        }
+      ]
+    },
+    {
+      "id": "TK-58022",
+      "from": "crypto-deals@mail.ru",
+      "who": "Unknown",
+      "subj": "Your invoice payment is pending — click here",
+      "prev": "",
+      "chan": "Email",
+      "desk": "",
+      "unread": false,
+      "star": false,
+      "att": false,
+      "time": "03 Sep",
+      "pri": "Low",
+      "folder": "spam",
+      "thread": [
+        {
+          "who": "Unknown sender",
+          "side": "in",
+          "chan": "Email",
+          "at": "03 Sep",
+          "txt": "Caught by the spam filter on sender reputation."
+        }
+      ]
+    },
+    {
+      "id": "TK-58018",
+      "from": "Den R.",
+      "who": "Patient",
+      "subj": "Cycle 3 delivered — thank you",
+      "prev": "",
+      "chan": "WhatsApp",
+      "desk": "Sales",
+      "unread": false,
+      "star": false,
+      "att": false,
+      "time": "02 Sep",
+      "pri": "Normal",
+      "folder": "closed",
+      "thread": [
+        {
+          "who": "Den R.",
+          "side": "in",
+          "chan": "WhatsApp",
+          "at": "02 Sep",
+          "txt": "Everything arrived in good order, thank you."
+        },
+        {
+          "who": "Priya N.",
+          "side": "out",
+          "at": "02 Sep",
+          "txt": "Glad to hear it. Closing this one — the cycle 4 reminder is already set."
+        }
+      ]
+    }
+  ]
+}
