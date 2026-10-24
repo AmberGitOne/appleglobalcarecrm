@@ -1,5 +1,11 @@
 # Apple Globalcare CRM
 
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/AmberGitOne/appledb)
+
+Deploying: see [DEPLOY.md](DEPLOY.md). The button above reads `render.yaml`
+and provisions the service, its persistent disk and its environment in one
+step. Note that Vercel cannot host this as built — DEPLOY.md explains why.
+
 A working full-stack build of the Apple Globalcare CRM prototype: the original
 single-file HTML UI, now backed by an Express REST API and a real SQLite
 database with a normalised relational schema.
