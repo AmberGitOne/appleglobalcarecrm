@@ -105,11 +105,94 @@
       flushQueue();
       return state;
     }).catch(function (err) {
+      // 401 means the server has REQUIRE_AUTH on and we have no valid token.
+      // That is not a failure - it is a prompt to sign in.
+      if (err.status === 401) {
+        try { window.localStorage.removeItem('aglc-token'); } catch (e) {}
+        return showLogin().then(bootstrap);
+      }
       bootError = err;
       booted = true;
       console.error('[CRM] could not load state from the server:', err);
       showFatal(err);
       throw err;
+    });
+  }
+
+  // -------------------------------------------------------------------
+  // sign-in overlay - only ever shown when the server demands a token
+  // -------------------------------------------------------------------
+
+  function showLogin() {
+    return new Promise(function (resolve) {
+      var wrap = document.createElement('div');
+      wrap.id = 'crm-login';
+      wrap.style.cssText = [
+        'position:fixed', 'inset:0', 'z-index:10000', 'display:flex',
+        'align-items:center', 'justify-content:center', 'padding:24px',
+        'background:#14338f',
+        'font:400 14px/1.5 Inter,system-ui,-apple-system,sans-serif'
+      ].join(';');
+
+      wrap.innerHTML =
+        '<form id="crm-login-form" autocomplete="on" style="background:#fff;border-radius:14px;' +
+        'width:380px;max-width:100%;padding:30px 32px;box-shadow:0 24px 60px -12px rgba(5,12,40,.5)">' +
+          '<div style="font-size:17px;font-weight:700;color:#0f1b2a;margin-bottom:4px">' +
+            'Apple Globalcare</div>' +
+          '<div style="font-size:13px;color:#6b7a90;margin-bottom:22px">Sign in to continue</div>' +
+
+          '<label for="crm-email" style="display:block;font-size:12px;font-weight:600;' +
+            'color:#55637a;margin-bottom:5px">Email</label>' +
+          '<input id="crm-email" name="username" type="email" required autocomplete="username" ' +
+            'style="width:100%;box-sizing:border-box;padding:9px 11px;border:1px solid #d4dbe6;' +
+            'border-radius:8px;font:inherit;font-size:13.5px;margin-bottom:14px;outline:0">' +
+
+          '<label for="crm-pass" style="display:block;font-size:12px;font-weight:600;' +
+            'color:#55637a;margin-bottom:5px">Password</label>' +
+          '<input id="crm-pass" name="password" type="password" required autocomplete="current-password" ' +
+            'style="width:100%;box-sizing:border-box;padding:9px 11px;border:1px solid #d4dbe6;' +
+            'border-radius:8px;font:inherit;font-size:13.5px;margin-bottom:6px;outline:0">' +
+
+          '<div id="crm-login-err" style="min-height:17px;font-size:12px;color:#b42318;' +
+            'margin-bottom:10px"></div>' +
+
+          '<button id="crm-login-go" type="submit" style="width:100%;padding:10px;border:0;' +
+            'border-radius:8px;background:#1d4ed8;color:#fff;font:inherit;font-size:14px;' +
+            'font-weight:600;cursor:pointer">Sign in</button>' +
+        '</form>';
+
+      document.body.appendChild(wrap);
+
+      var form = wrap.querySelector('#crm-login-form');
+      var email = wrap.querySelector('#crm-email');
+      var pass = wrap.querySelector('#crm-pass');
+      var errBox = wrap.querySelector('#crm-login-err');
+      var button = wrap.querySelector('#crm-login-go');
+
+      email.focus();
+
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        errBox.textContent = '';
+        button.disabled = true;
+        button.textContent = 'Signing in…';
+
+        request('POST', '/auth/login', {
+          email: email.value.trim(),
+          password: pass.value
+        }).then(function (res) {
+          try { window.localStorage.setItem('aglc-token', res.token); } catch (e) {}
+          wrap.remove();
+          resolve(res.user);
+        }).catch(function (err) {
+          button.disabled = false;
+          button.textContent = 'Sign in';
+          errBox.textContent = err.status === 401
+            ? 'Email or password is incorrect.'
+            : err.message;
+          pass.select();
+        });
+      });
     });
   }
 
@@ -167,6 +250,16 @@
     }).catch(function (err) {
       inFlight = false;
       lastError = err;
+
+      // The session lapsed mid-session. Ask for credentials and retry the
+      // save, so the user does not lose the edit they just made.
+      if (err.status === 401) {
+        try { window.localStorage.removeItem('aglc-token'); } catch (e) {}
+        status('Session expired — sign in again', 'error');
+        showLogin().then(function () { doSave(); });
+        return;
+      }
+
       status('Not saved — ' + err.message, 'error');
       console.error('[CRM] save failed:', err);
     });

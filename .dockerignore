@@ -1,0 +1,21 @@
+node_modules
+npm-debug.log*
+*.log
+
+# the database is created on first boot, never baked into the image
+data/*.db
+data/*.db-shm
+data/*.db-wal
+
+.git
+.gitignore
+.gitattributes
+.env
+.env.local
+
+README.md
+DEPLOY.md
+run-crm.bat
+Dockerfile
+.dockerignore
+render.yaml

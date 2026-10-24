@@ -62,11 +62,21 @@ function readToken(req) {
 }
 
 /**
+ * Routes that must stay reachable without a token.
+ *
+ * Without this, REQUIRE_AUTH=true locks everyone out permanently: the login
+ * endpoint sits behind the same middleware, so you would need a token in
+ * order to obtain a token. Paths are relative to the /api mount point.
+ */
+const PUBLIC_PATHS = new Set(['/auth/login', '/health']);
+
+/**
  * Populates req.user when a valid token is present. Rejects only when
  * REQUIRE_AUTH is on - otherwise it falls back to the admin identity so the
  * UI keeps working and the audit trail still gets a name.
  */
 function authenticate(req, res, next) {
+  const isPublic = PUBLIC_PATHS.has(req.path);
   const token = readToken(req);
 
   if (token) {
@@ -78,13 +88,19 @@ function authenticate(req, res, next) {
         return next();
       }
     } catch (_) {
-      if (REQUIRE_AUTH) return next(unauthorized('Session expired, sign in again'));
+      // An expired token on the login route is not a reason to refuse a
+      // fresh sign-in attempt.
+      if (REQUIRE_AUTH && !isPublic) {
+        return next(unauthorized('Session expired, sign in again'));
+      }
     }
   }
 
-  if (REQUIRE_AUTH) return next(unauthorized());
+  if (REQUIRE_AUTH && !isPublic) return next(unauthorized());
 
-  req.user = fallbackUser();
+  // Public routes carry no identity when auth is enforced; the login handler
+  // does not need one, and audit records it as 'system'.
+  req.user = REQUIRE_AUTH ? null : fallbackUser();
   next();
 }
 
