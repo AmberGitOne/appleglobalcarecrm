@@ -31,6 +31,15 @@ npm start
 
 Then open **http://localhost:4000**.
 
+No C++ toolchain is needed. `better-sqlite3` ships prebuilt binaries, and the
+committed `.npmrc` sets `ignore-scripts=true` so npm uses them instead of
+trying to rebuild from source — which would otherwise fail on any machine
+without Visual Studio, Xcode or build-essential. Install takes a couple of
+seconds.
+
+Optionally copy `.env.example` to `.env` to change the port, database path or
+JWT secret. The app runs on sensible defaults without it.
+
 `npm run setup` creates the schema and loads the demo data. `npm start` serves
 both the API and the browser app on the same port.
 

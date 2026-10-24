@@ -24,7 +24,7 @@ if errorlevel 1 (
 
 if not exist "node_modules\" (
   echo   Installing dependencies, this takes a moment...
-  call npm install --no-audit --no-fund
+  call npm install --no-audit --no-fund --ignore-scripts
   if errorlevel 1 (
     echo.
     echo   Dependency install failed. Scroll up for the reason.
