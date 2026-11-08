@@ -66,6 +66,7 @@
   var ROLES = {
     admin:   {n:"Raj K.",    r:"Admin &middot; board",     i:"RK", home:"command", all:true},
     sbu:     {n:"R. Kanyal", r:"SBU head &middot; Apollo", i:"RK", home:"sbu",   deny:["admin","employees","letters","cdr"]},
+    viewer:  {n:"A. Viewer",  r:"Read-only &middot; audit", i:"AV", home:"command", nav:["command","reports","tdash","tickets","cases","sourcing","demand","quotes","orders","suppliers","partners","makers","catalogue","pricebook","stock","trace","lanes","wh","goodsin","cold","recalls","permits","rx","pv","qa","compliance","docs","audit","institutional","channels","campaigns"]},
     dsales   :{n:"Marco B.", r:"Sales lead", i:"MB", home:"dsales", nav:["myspace","mypay","myleave","mybenefits","claims","attend","signin","tickets","docs","reports","tdash","cases","institutional","channels","quotes","sourcing","partners","orders","pportal","bportal","catalogue","accounts","pricebook","assist","refill"]},
     dmkt     :{n:"Aisha K.", r:"Marketing lead", i:"AK", home:"dmkt", nav:["myspace","mypay","myleave","mybenefits","claims","attend","signin","tickets","docs","reports","tdash","routing","campaigns","channels","cases","refill"]},
     ddigital :{n:"Tom R.", r:"Digital marketing lead", i:"TR", home:"ddigital", nav:["myspace","mypay","myleave","mybenefits","claims","attend","signin","tickets","docs","reports","tdash","campaigns","channels","cases","routing"]},

@@ -134,13 +134,51 @@ patchBoot('defer applyRole',
   '  if (window.CRM) window.CRM.ready(function(){ applyRole(startRole, false); });\n' +
   '  else applyRole(startRole, false);');
 
+patchBoot('add the read-only viewer persona',
+  '    sbu:     {n:"R. Kanyal", r:"SBU head &middot; Apollo", i:"RK", home:"sbu",   ' +
+  'deny:["admin","employees","letters","cdr"]},',
+  '    sbu:     {n:"R. Kanyal", r:"SBU head &middot; Apollo", i:"RK", home:"sbu",   ' +
+  'deny:["admin","employees","letters","cdr"]},' + '\n' +
+  '    viewer:  {n:"A. Viewer",  r:"Read-only &middot; audit", i:"AV", home:"command", ' +
+  'nav:["command","reports","tdash","tickets","cases","sourcing","demand",' +
+  '"quotes","orders","suppliers","partners","makers","catalogue","pricebook",' +
+  '"stock","trace","lanes","wh","goodsin","cold","recalls","permits","rx",' +
+  '"pv","qa","compliance","docs","audit","institutional","channels",' +
+  '"campaigns"]},');
+
 // ---------------------------------------------------------------------
-// 4. rebuild index.html with external assets
+// 3b. patch the markup
+//
+// The "View as" select is copied through from the prototype untouched, so
+// the viewer it now has to offer is added on the way past - the persona
+// above would be unreachable from the picker otherwise.
 // ---------------------------------------------------------------------
 
 const head = html.slice(0, style.open);
-const between = html.slice(style.end, script1.open);
+let between = html.slice(style.end, script1.open);
 const tail = html.slice(script2.end);
+
+function patchMarkup(name, find, replace) {
+  if (!between.includes(find)) fail(`markup patch "${name}" did not match - the source has changed`);
+  between = between.replace(find, replace);
+  applied.push(name);
+}
+
+const COUNSEL =
+  '      <optgroup label="Counsel">\n' +
+  '        <option value="dlegal">Legal team</option>\n' +
+  '      </optgroup>';
+
+patchMarkup('offer the viewer in "View as"',
+  COUNSEL,
+  COUNSEL + '\n' +
+  '      <optgroup label="Read-only">\n' +
+  '        <option value="viewer">Read-only viewer</option>\n' +
+  '      </optgroup>');
+
+// ---------------------------------------------------------------------
+// 4. rebuild index.html with external assets
+// ---------------------------------------------------------------------
 
 const indexHtml =
   head +

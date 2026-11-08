@@ -40,7 +40,7 @@
     'role-agent': 'dsupport',
     'role-pharm': 'dpharm',
     'role-qa': 'dqual',
-    'role-view': 'sbu'
+    'role-view': 'viewer'
   };
 
   var AVATAR_COLOUR = {
