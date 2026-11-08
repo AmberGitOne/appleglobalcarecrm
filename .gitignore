@@ -35,3 +35,7 @@ data/pgdata/
 # without running anything.
 .claude/skills/
 .neon
+
+# Written by the Vercel CLI: the project link (project and org ids) and a
+# local copy of the deployment environment variables.
+.vercel
