@@ -192,12 +192,10 @@ service itself can run on a smaller plan if you prefer.
 
 ### First sign-in
 
-The deploy seeds the demo accounts. Sign in with any of them:
-
-| Email | Role |
-| --- | --- |
-| `raj@appleglobalcare.com` | Admin |
-| `priya@appleglobalcare.com` | Agent |
+The deploy seeds eighteen demo accounts - one per desk, plus an admin and a
+read-only viewer. The sign-in page lists them all, grouped by role, so you can
+pick one rather than type an address. `raj@appleglobalcare.com` is the admin;
+README.md has the full table.
 
 Password: `Welcome@123`
 

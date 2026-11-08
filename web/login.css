@@ -160,7 +160,39 @@
   flex-direction: column;
   gap: 6px;
   margin-bottom: 15px;
+
+  /* One account per desk is 18 rows, which is taller than the viewport on
+     most screens. Scrolling the list rather than the page keeps the email
+     and password fields above it in reach. */
+  max-height: 44vh;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding-right: 4px;
+  scrollbar-width: thin;
 }
+#crm-login .lg-users::-webkit-scrollbar { width: 7px; }
+#crm-login .lg-users::-webkit-scrollbar-thumb {
+  background: #d3dced;
+  border-radius: 4px;
+}
+#crm-login .lg-users::-webkit-scrollbar-thumb:hover { background: #b9c8e6; }
+
+/* A role heading inside the list. Sticky, so you can still tell which role
+   you are looking at once the group is taller than the scroll window. */
+#crm-login .lg-grp {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  margin: 4px 0 0;
+  padding: 4px 2px 5px;
+  background: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .6px;
+  color: #93a0b2;
+}
+#crm-login .lg-grp:first-child { margin-top: 0; }
 
 #crm-login .lg-user {
   display: flex;
@@ -362,6 +394,7 @@
    320px - it shrinks and the subtitle gives up width instead. 375px is the
    commonest phone there is; hiding it there would be hiding the point. */
 @media (max-width: 400px) {
+  #crm-login .lg-users { max-height: 38vh; }
   #crm-login .lg-user { padding: 8px 9px; gap: 9px; }
   #crm-login .lg-av { width: 30px; height: 30px; font-size: 11px; }
   #crm-login .lg-chip { padding: 3px 6px; font-size: 10px; }

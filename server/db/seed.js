@@ -100,13 +100,34 @@ function roleGrants(roleId) {
   }
 }
 
+// One account per desk, because the front end has a persona per desk - a
+// home screen and a navigation whitelist each - and login.js routes to it
+// from the account's `desk` (web/login.js, BY_DESK). A desk with no account
+// was a view nobody could sign in to, reachable only through "View as".
+//
+// None of these may be role-admin but Raj: personaFor() sends every admin to
+// the command centre before it looks at the desk, so a desk lead with that
+// role would never reach their own screen. Leads are managers; the two
+// creative desks neither approve nor release, so they are agents.
 const USERS = [
-  ['usr-priya', 'priya@appleglobalcare.com', 'Priya N.',  'role-agent',   'Support',  'Senior agent',        'Grade 4'],
-  ['usr-raj',   'raj@appleglobalcare.com',   'Raj K.',    'role-admin',   '',         'Administrator',       'Board'],
-  ['usr-arun',  'arun@appleglobalcare.com',  'Arun K.',   'role-qa',      'Quality',  'QA officer',          'Grade 5'],
-  ['usr-sara',  'sara@appleglobalcare.com',  'Dr. Sara M.','role-pharm',  'Pharmacy', 'Responsible pharmacist','Grade 6'],
-  ['usr-yusuf', 'yusuf@appleglobalcare.com', 'Yusuf A.',  'role-agent',   'Sourcing', 'Sourcing agent',      'Grade 4'],
-  ['usr-maria', 'maria@appleglobalcare.com', 'Maria L.',  'role-manager', 'Sales',    'Desk manager',        'Grade 6'],
+  ['usr-raj',    'raj@appleglobalcare.com',    'Raj K.',     'role-admin',   '',                    'Administrator',          'Board'],
+  ['usr-kanyal', 'kanyal@appleglobalcare.com', 'R. Kanyal',  'role-manager', 'SBU',                 'SBU head',               'Board'],
+  ['usr-maria',  'maria@appleglobalcare.com',  'Maria L.',   'role-manager', 'Sales',               'Desk manager',           'Grade 6'],
+  ['usr-aisha',  'aisha@appleglobalcare.com',  'Aisha K.',   'role-manager', 'Marketing',           'Marketing lead',         'Grade 6'],
+  ['usr-tom',    'tom@appleglobalcare.com',    'Tom R.',     'role-agent',   'Digital marketing',   'Digital marketing lead', 'Grade 5'],
+  ['usr-neha',   'neha@appleglobalcare.com',   'Neha S.',    'role-agent',   'Design',              'Design lead',            'Grade 5'],
+  ['usr-priya',  'priya@appleglobalcare.com',  'Priya N.',   'role-agent',   'Support',             'Senior agent',           'Grade 4'],
+  ['usr-rosa',   'rosa@appleglobalcare.com',   'Rosa M.',    'role-manager', 'Processing',          'Processing lead',        'Grade 6'],
+  ['usr-colm',   'colm@appleglobalcare.com',   'Colm B.',    'role-manager', 'Shipping',            'Shipping lead',          'Grade 6'],
+  ['usr-bart',   'bart@appleglobalcare.com',   'Bart K.',    'role-manager', 'Warehouse',           'Warehouse lead',         'Grade 5'],
+  ['usr-yusuf',  'yusuf@appleglobalcare.com',  'Yusuf A.',   'role-agent',   'Sourcing',            'Sourcing agent',         'Grade 4'],
+  ['usr-sara',   'sara@appleglobalcare.com',   'Dr. Sara M.','role-pharm',   'Pharmacy',            'Responsible pharmacist', 'Grade 6'],
+  ['usr-arun',   'arun@appleglobalcare.com',   'Arun K.',    'role-qa',      'Quality',             'QA officer',             'Grade 5'],
+  ['usr-jia',    'jia@appleglobalcare.com',    'Jia L.',     'role-manager', 'Accounts',            'Accounts lead',          'Grade 6'],
+  ['usr-claire', 'claire@appleglobalcare.com', 'Claire D.',  'role-manager', 'Legal',               'Counsel',                'Grade 7'],
+  ['usr-ravi',   'ravi@appleglobalcare.com',   'Ravi K.',    'role-manager', 'IT & systems',        'IT & systems lead',      'Grade 6'],
+  ['usr-hannah', 'hannah@appleglobalcare.com', 'Hannah P.',  'role-manager', 'HR & admin',          'HR lead',                'Grade 6'],
+  ['usr-viewer', 'viewer@appleglobalcare.com', 'A. Viewer',  'role-view',    '',                    'Read-only access',       ''],
 ];
 
 // One source of truth, shared with the sign-in page's account picker.

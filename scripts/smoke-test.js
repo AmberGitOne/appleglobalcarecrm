@@ -234,7 +234,15 @@ async function main() {
   const accounts = await api('GET', '/api/auth/accounts');
   check('accounts endpoint answers without a token', accounts.status === 200);
   check('accounts are listed in a demo build',
-    accounts.body.demo === true && accounts.body.data.length === 6);
+    accounts.body.demo === true && accounts.body.data.length === 18,
+    String(accounts.body.data?.length));
+  // There is one account per desk, because the front end routes to a desk
+  // persona from the account's desk - a desk with no account is a screen
+  // nobody can sign in to. This checks the coarser half of that: that no
+  // role is left without a way in.
+  check('every role has an account that can sign in',
+    new Set(accounts.body.data.map((a) => a.roleId)).size === 6,
+    [...new Set(accounts.body.data.map((a) => a.roleId))].sort().join(' '));
   check('every listed account carries a role and an avatar',
     accounts.body.data.every((a) => a.email && a.roleName && a.avatar));
   check('no password hash is ever sent to the browser',

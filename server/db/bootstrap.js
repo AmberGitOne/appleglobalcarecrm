@@ -83,8 +83,11 @@ const BOOTSTRAP_LOCK = 724301;
  * Round trips in a migrate + seed, measured: 150.8s of first boot over a
  * 205ms link is ~735 sequential statements. It is latency, not work - the
  * same boot takes about two seconds against a database in the same region.
+ *
+ * Then +12 when the seed grew to one account per desk: the user loop is the
+ * only part of it that scales with USERS, at one insert each.
  */
-const BOOTSTRAP_ROUND_TRIPS = 735;
+const BOOTSTRAP_ROUND_TRIPS = 747;
 
 /** How long the first request may reasonably spend. Under maxDuration. */
 const BOOTSTRAP_BUDGET_MS = Number(process.env.BOOTSTRAP_BUDGET_MS) || 20000;

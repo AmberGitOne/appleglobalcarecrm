@@ -31,7 +31,7 @@
     'Shipping': 'dship', 'Warehouse': 'dwh', 'Sourcing': 'dsource',
     'Pharmacy': 'dpharm', 'Quality': 'dqual', 'Quality & regulatory': 'dqual',
     'Pharmacovigilance': 'dqual', 'Accounts': 'dacct', 'Legal': 'dlegal',
-    'HR & admin': 'dadmin', 'IT & systems': 'dit'
+    'HR & admin': 'dadmin', 'IT & systems': 'dit', 'SBU': 'sbu'
   };
 
   var BY_ROLE = {
@@ -199,7 +199,16 @@
         }
 
         demoPassword = res.password || null;
+
+        // One account per desk means 18 of them, which is too many to read
+        // as a flat list. The server orders by role and then by name, so a
+        // heading goes in wherever the role changes.
+        var lastRole = null;
         res.data.forEach(function (acct) {
+          if (acct.roleName !== lastRole) {
+            lastRole = acct.roleName;
+            users.appendChild(heading(acct));
+          }
           users.appendChild(row(acct));
         });
 
@@ -218,6 +227,14 @@
           'You can still sign in with an email address.';
       });
 
+      function heading(acct) {
+        var h = document.createElement('p');
+        h.className = 'lg-grp';
+        h.textContent = acct.roleName;
+        if (acct.roleDescription) h.title = acct.roleDescription;
+        return h;
+      }
+
       function row(acct) {
         var btn = document.createElement('button');
         btn.type = 'button';
@@ -235,19 +252,22 @@
         nm.textContent = acct.name;
         var jt = document.createElement('span');
         jt.className = 'lg-jt';
-        jt.textContent = acct.desk
-          ? acct.jobTitle + ' · ' + acct.desk
-          : acct.jobTitle || acct.email;
+        jt.textContent = acct.jobTitle || acct.email;
         who.appendChild(nm);
         who.appendChild(jt);
 
-        var chip = document.createElement('span');
-        chip.className = 'lg-chip';
-        chip.textContent = acct.roleName;
+        // The group heading already names the role, so the chip carries
+        // the desk - which is what separates two accounts under one role.
+        var chip = null;
+        if (acct.desk) {
+          chip = document.createElement('span');
+          chip.className = 'lg-chip';
+          chip.textContent = acct.desk;
+        }
 
         btn.appendChild(av);
         btn.appendChild(who);
-        btn.appendChild(chip);
+        if (chip) btn.appendChild(chip);
         btn.title = acct.email + (acct.roleDescription ? ' — ' + acct.roleDescription : '');
 
         btn.addEventListener('click', function () {

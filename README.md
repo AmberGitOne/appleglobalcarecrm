@@ -333,17 +333,34 @@ generates them.
 
 ### The seeded users
 
-Six users are seeded across six roles (Admin, Manager, Agent, Pharmacist,
-QA officer, Viewer), with 60 permissions mapped across them.
+Eighteen users are seeded across the six roles (Admin, Manager, Agent,
+Pharmacist, QA officer, Viewer), with 60 permissions mapped across them.
 
-| Email | Role |
-| --- | --- |
-| `raj@appleglobalcare.com` | Admin |
-| `maria@appleglobalcare.com` | Manager |
-| `priya@appleglobalcare.com` | Agent |
-| `sara@appleglobalcare.com` | Pharmacist |
-| `arun@appleglobalcare.com` | QA officer |
-| `yusuf@appleglobalcare.com` | Agent (sourcing) |
+There is one account per desk, because the front end gives every desk its own
+persona - a home screen and a navigation whitelist. Signing in routes to it
+from the account's desk, so a desk without an account was a screen nobody
+could reach except through the "View as" picker.
+
+| Email | Role | Desk |
+| --- | --- | --- |
+| `raj@appleglobalcare.com` | Admin | — |
+| `neha@appleglobalcare.com` | Agent | Design |
+| `priya@appleglobalcare.com` | Agent | Support |
+| `tom@appleglobalcare.com` | Agent | Digital marketing |
+| `yusuf@appleglobalcare.com` | Agent | Sourcing |
+| `aisha@appleglobalcare.com` | Manager | Marketing |
+| `bart@appleglobalcare.com` | Manager | Warehouse |
+| `claire@appleglobalcare.com` | Manager | Legal |
+| `colm@appleglobalcare.com` | Manager | Shipping |
+| `hannah@appleglobalcare.com` | Manager | HR & admin |
+| `jia@appleglobalcare.com` | Manager | Accounts |
+| `maria@appleglobalcare.com` | Manager | Sales |
+| `kanyal@appleglobalcare.com` | Manager | SBU |
+| `ravi@appleglobalcare.com` | Manager | IT & systems |
+| `rosa@appleglobalcare.com` | Manager | Processing |
+| `sara@appleglobalcare.com` | Pharmacist | Pharmacy |
+| `arun@appleglobalcare.com` | QA officer | Quality |
+| `viewer@appleglobalcare.com` | Viewer | — |
 
 Password for all of them: `Welcome@123`
 
